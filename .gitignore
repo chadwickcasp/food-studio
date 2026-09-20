@@ -1,0 +1,13 @@
+# Ignore Mac OS X files
+.DS_Store
+
+# Ignore Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+
