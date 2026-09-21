@@ -10,7 +10,7 @@
     "105527607_618a976de7_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:15:52.716Z"
     },
     "12284700334_f5945580f8_o": {
@@ -46,7 +46,7 @@
     "16976422189_eb49c9db10_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:19:59.873Z"
     },
     "189505984_261d40d77e_o": {
@@ -82,7 +82,7 @@
     "24488285392_d1c8715e9d_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:23:36.257Z"
     },
     "30915198868_b7f246e40e_o": {
@@ -112,7 +112,7 @@
     "3650601116_a3eaa0459d_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:25:38.971Z"
     },
     "3665434251_8c23bfe37e_o": {
@@ -124,7 +124,7 @@
     "3983575454_6f39abff2b_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:26:24.955Z"
     },
     "4347329846_7d5cfc4106_o": {
@@ -148,7 +148,7 @@
     "4663091455_b5734eb0bf_o": {
       "source": "codex",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:27:38.792Z"
     },
     "4783752333_d772608091_o": {
@@ -165,14 +165,14 @@
     },
     "4847805597_fbb7b3f01f_o": {
       "source": "custom",
-      "customCaption": "A stemmed glass of creamy white dessert topped with berries, red sauce, and crumbs, on a white tablecloth with an out-of-focus background of figures, napkins, and the same dessert",
-      "include": false,
+      "customCaption": "A stemmed glass of creamy white dessert topped with berries, red sauce, and crumbs, on a white tablecloth with figures, napkins, and another serving of the same dessert in the background.",
+      "include": true,
       "reviewedAt": "2026-09-21T05:37:42.281Z"
     },
     "48821253626_a10bc5a6a9_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:38:28.740Z"
     },
     "49139345791_4a06fa0414_o": {
@@ -196,7 +196,7 @@
     "5289545184_1c5e9c8ee4_o": {
       "source": "custom",
       "customCaption": "A white bowl of steaming broth with kale, sausage slices, red-skinned potatoes, and beans on a speckled stone counter with porcelain wares behind it",
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:42:32.736Z"
     },
     "53054019117_284950c654_o": {
@@ -208,43 +208,43 @@
     "53284561304_55ec6aa107_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:44:26.547Z"
     },
     "54537455538_31bc7d135b_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:44:56.080Z"
     },
     "54633970245_12d10d3c4d_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:45:06.608Z"
     },
     "55155000552_724f3bd663_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:45:28.306Z"
     },
     "55159005620_e333256054_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:46:09.471Z"
     },
     "55159852771_8e3a71e863_o": {
       "source": "codex",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:46:33.470Z"
     },
     "55177905037_091326d4c4_o": {
       "source": "custom",
       "customCaption": "A white bowl of red seafood stew with prawns coming out of the sides, squid tentacles, lemon, sliced yellow and orange bell peppers, and chopped herbs.",
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:47:48.079Z"
     },
     "55187559470_0338037927_o": {
@@ -262,13 +262,13 @@
     "5598524642_f14fdeb80b_o": {
       "source": "custom",
       "customCaption": "A white bowl holds red and white shaved frozen dessert split nicely in half, topped with blueberries and fresh mint leaves and little pockets of a brown sauce.",
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:50:26.241Z"
     },
     "6262027700_11886d49c2_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:50:57.174Z"
     },
     "6598764327_e9a861da60_o": {
@@ -280,7 +280,7 @@
     "6797333313_0122b75d31_o": {
       "source": "custom",
       "customCaption": "Bruschetta is covered with chopped tomato, onion, green herbs, and a small amount of sprinkled pepper on a restaurant plate.",
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:52:02.513Z"
     },
     "7539155852_9b477f161d_o": {
@@ -298,7 +298,7 @@
     "8648053726_28b9fa0649_o": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:54:52.935Z"
     },
     "9884293004_ffbb0488d4_o": {
@@ -316,25 +316,25 @@
     "food-1494235611kDr": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:55:42.289Z"
     },
     "KT's Wedding 13-0178": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:55:51.458Z"
     },
     "PXL_20250718_052316657.MP": {
       "source": "grok",
       "customCaption": null,
-      "include": false,
+      "include": true,
       "reviewedAt": "2026-09-21T05:56:13.989Z"
     },
     "PXL_20250816_201312842.MP": {
       "source": "custom",
-      "customCaption": "A small, well-composed seafood course of pale slices, mushroom pieces, and thin black garnish over a dark sauce ring on a wide white plate with a gold rim, on a white tablecloth, with a water glass at the edge.",
-      "include": false,
+      "customCaption": "A small seafood course of pale slices, mushroom pieces, and thin black garnish over a dark sauce ring on a wide white plate with a gold rim, on a white tablecloth, with a water glass at the edge.",
+      "include": true,
       "reviewedAt": "2026-09-21T05:57:01.319Z"
     },
     "PXL_20250816_203428719.MP": {
@@ -374,5 +374,5 @@
       "reviewedAt": "2026-09-21T05:58:41.219Z"
     }
   },
-  "updatedAt": "2026-09-21T05:58:41.219Z"
+  "updatedAt": "2026-09-21T06:09:13Z"
 }

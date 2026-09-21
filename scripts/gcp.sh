@@ -17,15 +17,24 @@ IMAGE_PROJECT="${GCP_IMAGE_PROJECT:-deeplearning-platform-release}"
 
 usage() {
   cat <<EOF
-Usage: $(basename "$0") <create|sync|ssh|stop|start|pull|delete>
+Usage: $(basename "$0") <create|sync|ssh|train|stop|start|pull|delete>
 
   create   Start a Spot ${MACHINE} VM with a ${DISK_SIZE} boot disk (1x L4).
   sync     Copy this repository onto the VM, including local training images.
   ssh      Open an SSH session.
+  train    Detach baseline, training, and 50-step dev renders; then stop the VM.
   stop     Stop the VM and keep the persistent disk.
   start    Start a stopped VM (after you stop it, or after Spot STOP preemption).
   pull     Copy outputs/ back to this machine.
   delete   Delete the VM and its boot disk.
+
+  train [--resume latest|<checkpoint-dir>]
+
+Training preserves the held-out Base baseline, renders development prompts for
+Base and every saved checkpoint, then stops the VM on success or failure so the
+L4 does not keep billing.
+The boot disk is kept. Start the VM later to inspect outputs/train.log or pull
+checkpoints. For an interactive run that leaves the VM up, use ssh instead.
 
 Edit PROJECT and ZONE at the top of this script, or override with GCP_PROJECT / GCP_ZONE.
 Other environment: GCP_INSTANCE GCP_MACHINE GCP_DISK_SIZE
@@ -93,6 +102,32 @@ ssh() {
   gcloud compute ssh "${INSTANCE}" --project="${PROJECT}" --zone="${ZONE}"
 }
 
+train() {
+  need_project
+  local resume_arg=""
+  case "${1:-}" in
+    "")
+      ;;
+    --resume)
+      if [[ -z "${2:-}" || $# -ne 2 ]]; then
+        echo "Usage: $(basename "$0") train [--resume latest|<checkpoint-dir>]" >&2
+        exit 1
+      fi
+      if [[ ! "${2}" =~ ^[A-Za-z0-9._/-]+$ ]]; then
+        echo "Unsafe --resume value: ${2}" >&2
+        exit 1
+      fi
+      resume_arg="--resume ${2}"
+      ;;
+    *)
+      echo "Usage: $(basename "$0") train [--resume latest|<checkpoint-dir>]" >&2
+      exit 1
+      ;;
+  esac
+
+  ssh_cmd --command="bash -lc \"mkdir -p \\\$HOME/${REMOTE_DIR}/outputs && cd \\\$HOME/${REMOTE_DIR} && nohup bash scripts/train_then_stop.sh ${resume_arg} >> outputs/train.log 2>&1 < /dev/null & echo Detached training pid \\\$! && echo Log: \\\$HOME/${REMOTE_DIR}/outputs/train.log && echo The VM will stop when training exits.\""
+}
+
 stop() {
   need_project
   gcloud_vm stop "${INSTANCE}"
@@ -120,8 +155,10 @@ delete() {
 }
 
 cmd="${1:-}"
+shift || true
 case "${cmd}" in
   create | sync | ssh | stop | start | pull | delete) "${cmd}" ;;
+  train) train "$@" ;;
   -h | --help | help | "") usage ;;
   *)
     usage >&2

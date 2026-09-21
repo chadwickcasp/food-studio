@@ -11,7 +11,7 @@ The experiment does not claim that every output will improve or that this small 
 - Base model and exact revision
 - Rank / alpha: 8 / 8
 - Training resolution, optimizer, learning rate, batch settings, and seed from `config.yaml`
-- Maximum 500 optimizer steps, with checkpoints every 100 steps
+- Maximum 500 optimizer steps, with checkpoints every 50 steps
 - Evaluation resolution, scheduler, inference-step count, guidance, and precision
 - Prompt and seed within every baseline/LoRA pair
 - LoRA scale 1.0 for the primary comparison
@@ -33,16 +33,16 @@ Caption decisions are stored in `data/captions/selections.json`. They must be ma
 
 Use disjoint prompt sets:
 
-- Development: four representative prompts with fixed seeds, used only to choose a checkpoint.
-- Final evaluation: six held-out prompts with two fixed seeds each, producing 12 matched pairs. Do not inspect these outputs before checkpoint selection is locked.
+- Development: eight representative prompts with fixed seeds, used only to choose a checkpoint.
+- Final evaluation: eight held-out prompts with fixed seeds, producing eight matched pairs. Do not inspect these outputs before checkpoint selection is locked.
 
-The development prompts should span at least one plated entrée, dessert, beverage, and overhead composition. The final prompts should cover subjects and arrangements not present in training while remaining relevant to the intended commercial-food use.
+Both sets stay inside the initial contemporary restaurant/editorial food-photography brief. The development prompts span plated entrées, a vegetarian plate, dessert, beverage, breakfast, pasta, seafood, and an overhead composition. The final prompts cover different subjects and arrangements while remaining relevant to the same intended commercial-food use.
 
 ## Phase 3: baseline and training
 
 1. Generate and preserve the Base outputs for the final evaluation prompts before training.
 2. Train the single pre-registered rank-8 LoRA to 500 steps.
-3. Save resumable training state and adapter weights at steps 100, 200, 300, 400, and 500.
+3. Save resumable training state and adapter weights at steps 50, 100, 150, 200, 250, 300, 350, 400, 450, and 500.
 4. Record runtime, hardware, cost, loss trace, and any OOM/correctness recovery changes.
 5. Do not use loss alone to choose the adapter. It is a diagnostic, not the photographic objective.
 
@@ -52,7 +52,7 @@ For each saved checkpoint, render every development prompt with identical genera
 
 For every development prompt:
 
-1. Inspect Base and steps 100–500 side by side.
+1. Inspect Base and steps 50–500 side by side.
 2. Mark the checkpoint with the best balance of target-style strength, prompt fidelity, food realism, subject variety, and artifact control.
 3. Note the first point where the adapter becomes rigid, repeats a training composition, oversaturates the style, or drops requested content.
 
@@ -61,7 +61,7 @@ Select the checkpoint with the most per-prompt wins. If two checkpoints are effe
 ## Phase 5: final blinded A/B evaluation
 
 1. Load the selected checkpoint into a fresh inference process.
-2. Generate the 12 LoRA outputs for the six held-out prompts and two fixed seeds, using the exact Base settings.
+2. Generate the eight LoRA outputs for the eight held-out prompts and fixed seeds, using the exact Base settings.
 3. Confirm that both manifests contain matching IDs, prompts, seeds, dimensions, scheduler, inference steps, guidance, precision, model revision, and runtime metadata.
 4. Create a blinded session in the A/B Test screen. The app randomizes A/B placement independently for each pair and withholds identities until every item is scored.
 5. Score style match, prompt fidelity, food presentation, and artifact control; add notes for memorization, repeated layouts, copied-looking examples, ambiguity, and regressions.

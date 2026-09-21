@@ -1,0 +1,45 @@
+{
+  "description": "Development-only prompts for selecting the best LoRA checkpoint. These remain separate from the held-out validation prompts and reflect the initial contemporary restaurant food-photography brief.",
+  "prompts": [
+    {
+      "id": "dev-01",
+      "seed": 1101,
+      "prompt": "Sliced pan-seared duck breast with celeriac puree, charred radicchio, and sour cherry jus on a matte charcoal plate, close three-quarter view, directional window light, restrained dark restaurant table."
+    },
+    {
+      "id": "dev-02",
+      "seed": 1202,
+      "prompt": "A roasted cauliflower steak with tahini, toasted almonds, pomegranate seeds, and parsley on a neutral ceramic plate, three-quarter view, soft side light, minimal tabletop props."
+    },
+    {
+      "id": "dev-03",
+      "seed": 1303,
+      "prompt": "A vanilla-poached pear with a mascarpone quenelle, hazelnut crumble, and a small pool of caramel on a cream stoneware plate, close side view, warm directional restaurant light."
+    },
+    {
+      "id": "dev-04",
+      "seed": 1404,
+      "prompt": "A tall glass of iced matcha tonic with lime peel and clear ice, standing on a pale stone bar, three-quarter product view, clean natural side light and an uncluttered background."
+    },
+    {
+      "id": "dev-05",
+      "seed": 1505,
+      "prompt": "Handmade spinach and ricotta ravioli with brown butter, sage leaves, and grated parmesan in a wide shallow bowl, photographed directly overhead on a dark wood table."
+    },
+    {
+      "id": "dev-06",
+      "seed": 1606,
+      "prompt": "A short stack of buttermilk pancakes with roasted peaches, whipped mascarpone, and maple syrup on a warm ceramic plate, close three-quarter view on a simple linen-covered breakfast table."
+    },
+    {
+      "id": "dev-07",
+      "seed": 1707,
+      "prompt": "Seared scallops with sweet corn puree, charred corn kernels, and herb oil on a matte white plate, low three-quarter angle, controlled side light, restrained restaurant setting."
+    },
+    {
+      "id": "dev-08",
+      "seed": 1808,
+      "prompt": "Pappardelle with wild mushrooms, browned butter, parmesan, and fresh thyme in a dark shallow bowl, close three-quarter view, directional ambient light on a neutral tabletop."
+    }
+  ]
+}

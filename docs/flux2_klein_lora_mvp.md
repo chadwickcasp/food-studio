@@ -43,6 +43,7 @@ Spot availability and pricing vary by region. The relevant references are the [G
 │   │   ├── 0001.jpg
 │   │   ├── 0001.txt
 │   │   └── ...
+│   ├── development_prompts.json
 │   └── validation_prompts.json
 ├── src/
 │   ├── train.py
@@ -105,7 +106,7 @@ These are conservative launch values, not tuned recommendations. Keep them fixed
 | Scheduler | constant |
 | Warmup | 50 steps |
 | Maximum training steps | 500 |
-| Checkpoint interval | every 100 optimizer steps |
+| Checkpoint interval | every 50 optimizer steps |
 | Training seed | fixed and recorded, for example `42` |
 
 If 24 GB is still insufficient, first enable or confirm CPU offload, 8-bit AdamW, latent caching, and gradient checkpointing; then reduce resolution to 512. Do not introduce distributed training, a different model, or a custom quantization system to rescue this MVP.
@@ -116,8 +117,8 @@ The official [Diffusers FLUX.2 training guide](https://github.com/huggingface/di
 
 ### Before training
 
-1. Write 5-10 validation prompts that cover different dishes, framing, backgrounds, lighting situations, and layouts relevant to the intended food-advertising use.
-2. Give each prompt a fixed random seed and stable ID in `data/validation_prompts.json`.
+1. Keep separate development and validation sets. Use eight development prompts only for checkpoint selection and eight held-out validation prompts only for the final comparison.
+2. Give each prompt a fixed random seed and stable ID in `data/development_prompts.json` or `data/validation_prompts.json`.
 3. Also fix and record the model revision, image dimensions, inference steps, guidance value, scheduler, and other generation settings.
 4. Run `src/inference.py` without an adapter and save the results to `outputs/samples/baseline/`.
 

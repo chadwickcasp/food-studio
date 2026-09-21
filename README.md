@@ -56,10 +56,20 @@ The plan uses a Compute Engine Spot `g2-standard-8` (1x L4, 100 GB disk). Sync t
 # Edit PROJECT and ZONE at the top of scripts/gcp.sh if needed.
 scripts/gcp.sh create
 scripts/gcp.sh sync
-scripts/gcp.sh ssh
+scripts/gcp.sh ssh   # first boot: hf auth login, install PyTorch + requirements
 ```
 
-On the VM: `hf auth login`, install requirements, then run inference/train from `~/food-studio`. After preemption the VM stops and keeps its disk (`scripts/gcp.sh start`, then `--resume latest`). Copy review artifacts back with `scripts/gcp.sh pull`.
+Training from the laptop detaches on the VM. The wrapper first generates and preserves the held-out Base baseline if it does not already exist. After a successful training run, it renders the eight development prompts for Base and every 50-step checkpoint, writes the checkpoint-review manifest, and then **stops the instance** so the L4 does not keep billing. The VM also stops after a baseline, training, or development-render failure. The boot disk is kept.
+
+```bash
+scripts/gcp.sh train
+# Spot preemption or a later retry:
+scripts/gcp.sh start && scripts/gcp.sh train --resume latest
+```
+
+Watch the log with `scripts/gcp.sh ssh` and `tail -f ~/food-studio/outputs/train.log`, or check in Cloud Console that the VM has returned to **STOPPED**. Then `scripts/gcp.sh start`, `scripts/gcp.sh pull`, and `scripts/gcp.sh stop` (or run inference on the VM before stopping again).
+
+`python -m src.train` over SSH does **not** stop the VM; use that only when you want the node to stay up. After preemption the VM also stops and keeps its disk (`scripts/gcp.sh start`, then `--resume latest`).
 
 If 24 GB is still too small, enable `training.use_8bit_adam` (install `bitsandbytes`), confirm CPU offload and latent caching, then drop `training.resolution` to 512. Do not add distributed training or a different model for this MVP.
 

@@ -18,6 +18,7 @@ dataset:
 
 output:
   checkpoints_dir: outputs/checkpoints
+  development_dir: outputs/development
   samples_dir: outputs/samples
   comparisons_dir: outputs/comparisons
   observations_path: outputs/observations.md
@@ -44,7 +45,7 @@ training:
   lr_scheduler: constant
   lr_warmup_steps: 50
   max_train_steps: 500
-  checkpoint_steps: 100
+  checkpoint_steps: 50
   max_grad_norm: 1.0
   weighting_scheme: none
   max_sequence_length: 512
@@ -61,6 +62,7 @@ inference:
   scheduler: FlowMatchEulerDiscreteScheduler
   precision: bf16
   cpu_offload: true
+  development_prompts: data/development_prompts.json
   validation_prompts: data/validation_prompts.json
   max_sequence_length: 512
   text_encoder_out_layers: [10, 20, 30]

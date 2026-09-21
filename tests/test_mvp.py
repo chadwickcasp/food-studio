@@ -14,6 +14,7 @@ from src.experiment import (
     validate_image_caption_pairs,
 )
 from src.inference import write_pair
+from src.development import checkpoint_steps
 
 
 @dataclass
@@ -109,6 +110,8 @@ def test_load_config_resolves_paths(tmp_path: Path) -> None:
     assert loaded["lora"]["rank"] == 8
     assert loaded["lora"]["alpha"] == 8
     assert loaded["model"]["id"] == "black-forest-labs/FLUX.2-klein-base-4B"
+    assert loaded["training"]["checkpoint_steps"] == 50
+    assert loaded["inference"]["development_prompts"] == tmp_path / "data" / "development_prompts.json"
 
 
 def test_load_config_rejects_bad_resolution(tmp_path: Path) -> None:
@@ -124,6 +127,20 @@ def test_validation_prompts_file() -> None:
     assert len(prompts) == 8
     assert prompts[0].prompt_id == "eval-01"
     assert len({item.seed for item in prompts}) == 8
+
+
+def test_development_prompts_are_separate_and_complete() -> None:
+    development = load_validation_prompts(Path("data/development_prompts.json"))
+    validation = load_validation_prompts(Path("data/validation_prompts.json"))
+    assert len(development) == 8
+    assert [item.prompt_id for item in development] == [f"dev-{index:02d}" for index in range(1, 9)]
+    assert len({item.seed for item in development}) == 8
+    assert {item.prompt_id for item in development}.isdisjoint(item.prompt_id for item in validation)
+    assert {item.prompt for item in development}.isdisjoint(item.prompt for item in validation)
+
+
+def test_checkpoint_steps_use_50_step_schedule() -> None:
+    assert checkpoint_steps(500, 50) == list(range(50, 501, 50))
 
 
 def test_duplicate_prompt_ids_are_rejected(tmp_path: Path) -> None:

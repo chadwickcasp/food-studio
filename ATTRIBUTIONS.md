@@ -59,6 +59,28 @@ Optional credit:
 
 > “Flat Lay Honey” by [Flat Lay Photos](https://stocksnap.io/author/flatlayphotos), from [StockSnap](https://stocksnap.io/photo/flatlay-honey-SCRJFFD2TZ), made available under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
+## PublicDomainPictures photo
+
+### Dessert Cake
+
+- Filename: `food-1494235611kDr.jpg`
+- Creator: CC0 Community
+- Source: [Dessert Cake on PublicDomainPictures](https://www.publicdomainpictures.net/en/view-image.php?image=212698&picture=dessert-cake)
+- License: [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
+- License verification: Verified on the individual photo page on 2026-09-20
+- Modifications: None to the downloaded source file. Training preprocessing may resize and/or crop the image.
+
+Attribution is optional; provenance remains recorded in the manifest.
+
+## Owner-provided personal image
+
+The user supplied `KT's Wedding 13-0178.jpg` from their personal image collection and authorized its use in this Food Studio experiment. The original photographer is not recorded, so this authorization does not grant reuse outside this project.
+
+- Source: Owner-provided personal image
+- Rights basis: User authorization for this project
+- License: No public license; reuse outside this project is not granted
+- Modifications: None to the source file. Training preprocessing may resize and/or crop the image.
+
 ## Owner-provided PXL photos
 
 The photographs listed below were created and supplied by Chadwick Casper, who retains their copyright. Chadwick Casper authorizes their use in the Food Studio project and its model-training experiments. No public license or permission for reuse outside this project is granted, and the repository's GNU AGPL v3.0 software license does not apply to these photographs.

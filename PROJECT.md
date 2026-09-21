@@ -28,7 +28,7 @@ The photographic look will be defined before selecting the final images. Trainin
 
 - One clearly defined photographic look
 - One LoRA training run
-- Six held-out evaluation prompts and two fixed seeds
+- Eight development prompts for checkpoint selection and eight held-out evaluation prompts, each with a fixed seed
 - Photorealism, lighting, material behavior, composition, prompt adherence, and artifact evaluation
 - Reproducible manifests recording model and generation settings
 - A small Base-to-Distilled portability check

@@ -23,6 +23,18 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run matched FLUX.2 Klein evaluation.")
     parser.add_argument("--config", type=Path, default=Path("config.yaml"))
     parser.add_argument(
+        "--prompts",
+        type=Path,
+        default=None,
+        help="Prompt JSON to render. Defaults to inference.validation_prompts from the config.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Explicit sample directory. Required by the development-checkpoint runner.",
+    )
+    parser.add_argument(
         "--lora",
         type=Path,
         default=None,
@@ -89,11 +101,18 @@ def sample_dir(config: dict, lora_path: Path | None) -> Path:
     return root / ("lora" if lora_path is not None else "baseline")
 
 
-def generate_samples(config: dict, lora_path: Path | None) -> Path:
+def generate_samples(
+    config: dict,
+    lora_path: Path | None,
+    *,
+    prompts_path: Path | None = None,
+    output_dir: Path | None = None,
+) -> Path:
     import torch
 
-    prompts = load_validation_prompts(config["inference"]["validation_prompts"])
-    out_dir = sample_dir(config, lora_path)
+    prompt_file = prompts_path or config["inference"]["validation_prompts"]
+    prompts = load_validation_prompts(prompt_file)
+    out_dir = output_dir.expanduser().resolve() if output_dir is not None else sample_dir(config, lora_path)
     out_dir.mkdir(parents=True, exist_ok=True)
     pipeline, device = load_pipeline(config, lora_path)
     inference = config["inference"]
@@ -126,6 +145,7 @@ def generate_samples(config: dict, lora_path: Path | None) -> Path:
 
     manifest = {
         "created_utc": started.isoformat(),
+        "prompts_path": str(prompt_file),
         "device": str(device),
         "model_id": config["model"]["id"],
         "model_revision": config["model"]["revision"],
@@ -230,16 +250,19 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     args = parse_args()
     config = load_config(args.config)
-    load_validation_prompts(config["inference"]["validation_prompts"])
+    prompt_file = args.prompts.expanduser().resolve() if args.prompts else config["inference"]["validation_prompts"]
+    load_validation_prompts(prompt_file)
 
     if args.compare_only:
+        if args.prompts is not None or args.output_dir is not None:
+            raise ValueError("--compare-only uses the configured validation prompts and default sample directories.")
         write_comparisons(config)
         return
 
-    generate_samples(config, args.lora)
+    generate_samples(config, args.lora, prompts_path=prompt_file, output_dir=args.output_dir)
     baseline_dir = config["output"]["samples_dir"] / "baseline"
     lora_dir = config["output"]["samples_dir"] / "lora"
-    if args.lora is not None and baseline_dir.is_dir() and lora_dir.is_dir():
+    if args.prompts is None and args.output_dir is None and args.lora is not None and baseline_dir.is_dir() and lora_dir.is_dir():
         write_comparisons(config)
 
 

@@ -46,7 +46,7 @@ The checkpoint tool discovers `outputs/development/**/manifest.json` files with 
 {
   "name": "rank-8 first run",
   "modelId": "black-forest-labs/FLUX.2-klein-base-4B",
-  "steps": ["base", 100, 200, 300, 400],
+  "steps": ["base", 50, 100, 150, 200],
   "prompts": [
     {
       "id": "dev-01",
@@ -54,8 +54,8 @@ The checkpoint tool discovers `outputs/development/**/manifest.json` files with 
       "seed": 92014,
       "samples": {
         "base": "outputs/development/rank-8/base/dev-01.png",
-        "100": "outputs/development/rank-8/100/dev-01.png",
-        "200": "outputs/development/rank-8/200/dev-01.png"
+        "50": "outputs/development/rank-8/50/dev-01.png",
+        "100": "outputs/development/rank-8/100/dev-01.png"
       }
     }
   ]

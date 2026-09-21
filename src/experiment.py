@@ -141,6 +141,9 @@ def load_config(config_path: Path) -> dict[str, Any]:
             "checkpoints_dir": resolve_path(
                 path, _require_str(output, "checkpoints_dir", "output.checkpoints_dir")
             ),
+            "development_dir": resolve_path(
+                path, _require_str(output, "development_dir", "output.development_dir")
+            ),
             "samples_dir": resolve_path(path, _require_str(output, "samples_dir", "output.samples_dir")),
             "comparisons_dir": resolve_path(
                 path, _require_str(output, "comparisons_dir", "output.comparisons_dir")
@@ -200,6 +203,9 @@ def load_config(config_path: Path) -> dict[str, Any]:
             "scheduler": _require_str(inference, "scheduler", "inference.scheduler"),
             "precision": inference_precision,
             "cpu_offload": _require_bool(inference, "cpu_offload", "inference.cpu_offload"),
+            "development_prompts": resolve_path(
+                path, _require_str(inference, "development_prompts", "inference.development_prompts")
+            ),
             "validation_prompts": resolve_path(
                 path, _require_str(inference, "validation_prompts", "inference.validation_prompts")
             ),

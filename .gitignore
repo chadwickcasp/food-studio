@@ -28,6 +28,7 @@ data/**/*.tiff
 outputs/checkpoints/
 outputs/samples/
 outputs/comparisons/
+outputs/*.log
 *.safetensors
 logs/
 
