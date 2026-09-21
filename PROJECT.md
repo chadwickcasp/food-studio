@@ -32,6 +32,7 @@ The photographic look will be defined before selecting the final images. Trainin
 - Photorealism, lighting, material behavior, composition, prompt adherence, and artifact evaluation
 - Reproducible manifests recording model and generation settings
 - A small Base-to-Distilled portability check
+- A basic local review UI for caption curation, development-checkpoint selection, and blinded A/B scoring
 
 ## Out of scope
 
@@ -39,7 +40,7 @@ The photographic look will be defined before selecting the final images. Trainin
 - Multi-image blending
 - Task-specific edit-LoRA training
 - Hyperparameter searches
-- Production deployment or a polished application UI
+- Production deployment, hosted collaboration, or a general-purpose model-evaluation platform
 - Claims of statistical significance from the small evaluation set
 
 ## Definition of done

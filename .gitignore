@@ -10,4 +10,28 @@ __pycache__/
 *.pyz
 *.pywz
 *.pyzw
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
 
+# Training images stay local. Captions and the manifest are source-controlled.
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+data/**/*.webp
+data/**/*.tif
+data/**/*.tiff
+
+# Checkpoints, LoRA weights, and generated review images.
+outputs/checkpoints/
+outputs/samples/
+outputs/comparisons/
+*.safetensors
+logs/
+
+# Local review UI build artifacts.
+ui/node_modules/
+ui/dist/
+ui/*.tsbuildinfo

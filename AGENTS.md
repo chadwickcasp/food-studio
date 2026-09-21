@@ -46,6 +46,8 @@ Every generated result should be traceable to its configuration. Record at least
 - Use only imagery that is owned, licensed for the intended use, or verifiably public domain.
 - Do not scrape, download, or add training data unless the user has approved the source and its terms.
 - Maintain a data manifest containing source, creator when known, license or rights basis, retrieval date, and content hash.
+- For this style LoRA, caption only visible variable content: subjects, ingredients, vessels, props, setting objects, and actions. Do not caption the shared photographic style, lighting quality, camera angle, composition, depth of field, color grade, or commercial finish.
+- Do not add a synthetic style trigger token unless the experiment scope is explicitly changed and the change is documented. With the current trigger-free design, loading and scaling the adapter enables the learned style.
 - Do not commit source datasets, model checkpoints, LoRA weights, generated image batches, credentials, or other large artifacts to Git unless explicitly requested.
 - Never expose access tokens, API keys, or private URLs in source files, logs, manifests, or documentation.
 

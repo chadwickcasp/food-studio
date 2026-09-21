@@ -1,0 +1,66 @@
+# FLUX.2 Klein food-advertising LoRA MVP.
+# Pre-registered settings from docs/flux2_klein_lora_mvp.md. After the first
+# training run begins, change them only to recover from OOM or a correctness
+# failure, and record the change in outputs/observations.md.
+
+model:
+  id: black-forest-labs/FLUX.2-klein-base-4B
+  # Weights commit on the Hub model repo (not the later README-only commit).
+  revision: 8c44a2fbef88fae175da65df054db0f901aa9747
+
+# Diffusers git SHA that this repo is pinned to. Flux2KleinPipeline is not in
+# the 0.36 PyPI release. LoRA target modules are copied from this revision's
+# examples/dreambooth/train_dreambooth_lora_flux2_klein.py.
+diffusers_revision: 80c7ed262aeffbeb43ef13ae04baeb9b84515a69
+
+dataset:
+  train_dir: data/train
+
+output:
+  checkpoints_dir: outputs/checkpoints
+  samples_dir: outputs/samples
+  comparisons_dir: outputs/comparisons
+  observations_path: outputs/observations.md
+
+lora:
+  # Modest extra capacity for the initial photographic-style adapter. Keeping
+  # alpha equal to rank preserves an effective LoRA scaling factor of 1.
+  rank: 8
+  alpha: 8
+  dropout: 0.0
+  adapter_scale: 1.0
+
+training:
+  seed: 42
+  precision: bf16
+  resolution: 768
+  batch_size: 1
+  gradient_accumulation_steps: 4
+  gradient_checkpointing: true
+  cache_latents: true
+  cpu_offload: true
+  use_8bit_adam: false
+  learning_rate: 1.0e-4
+  lr_scheduler: constant
+  lr_warmup_steps: 50
+  max_train_steps: 500
+  checkpoint_steps: 100
+  max_grad_norm: 1.0
+  weighting_scheme: none
+  max_sequence_length: 512
+  # Official Klein LoRA trainer default (keep training and inference matched).
+  text_encoder_out_layers: [10, 20, 30]
+  center_crop: true
+  dataloader_workers: 0
+
+inference:
+  width: 768
+  height: 768
+  num_inference_steps: 50
+  guidance_scale: 4.0
+  scheduler: FlowMatchEulerDiscreteScheduler
+  precision: bf16
+  cpu_offload: true
+  validation_prompts: data/validation_prompts.json
+  max_sequence_length: 512
+  text_encoder_out_layers: [10, 20, 30]

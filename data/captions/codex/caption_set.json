@@ -1,0 +1,19 @@
+{
+  "caption_set_id": "codex-2026-09-20-v2",
+  "generator": "Codex",
+  "generated_at": "2026-09-20",
+  "status": "draft-candidate-captions",
+  "source_directory": "data",
+  "source_manifest": "data/dataset_manifest.csv",
+  "image_count": 62,
+  "caption_format": "one UTF-8 text file per source image stem",
+  "replaces": "codex-2026-09-20-v1",
+  "caption_policy": [
+    "describe visible variable content only: subject, ingredients, vessels, props, setting objects, and actions",
+    "do not describe photographic style, lighting quality, camera angle, composition, depth of field, color grade, or commercial finish",
+    "leave shared style in the pixels so the style LoRA can learn it as residual",
+    "avoid synthetic trigger tokens",
+    "avoid unsupported ingredient or dish claims",
+    "keep generator output separate until human review and final training-set selection"
+  ]
+}

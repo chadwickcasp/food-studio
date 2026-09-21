@@ -1,0 +1,378 @@
+{
+  "version": 1,
+  "selections": {
+    "10141317556_3406a6beaf_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:15:15.517Z"
+    },
+    "105527607_618a976de7_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:15:52.716Z"
+    },
+    "12284700334_f5945580f8_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:16:19.222Z"
+    },
+    "13187362234_ebefbfa014_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:16:45.438Z"
+    },
+    "14164354412_c273356af5_o": {
+      "source": "custom",
+      "customCaption": "Detailed macro shot of surface liquid and features inside a cup of coffee. The surface has evidence of cream and bubbles, with alternating dark and beige striations and scattered dark specs that may be bubbles, grounds, or other surface artifacts.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:19:20.226Z"
+    },
+    "15380313960_e66eb83b69_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:19:32.169Z"
+    },
+    "16718295295_e72e00ba5a_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:19:40.489Z"
+    },
+    "16976422189_eb49c9db10_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:19:59.873Z"
+    },
+    "189505984_261d40d77e_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:20:44.643Z"
+    },
+    "19606928322_7fd63d9fd6_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:21:04.491Z"
+    },
+    "1998264020_9f6d5f45a2_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:22:20.422Z"
+    },
+    "23116257700_1785cd8f22_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:22:50.719Z"
+    },
+    "23842522251_45785f1dea_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:23:23.452Z"
+    },
+    "24488285392_d1c8715e9d_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:23:36.257Z"
+    },
+    "30915198868_b7f246e40e_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:23:49.851Z"
+    },
+    "3519047818_6efcb285da_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:24:09.708Z"
+    },
+    "3570035951_b5e9b9e5f7_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:24:35.194Z"
+    },
+    "35840700846_6394bdd36f_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:25:08.892Z"
+    },
+    "3650601116_a3eaa0459d_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:25:38.971Z"
+    },
+    "3665434251_8c23bfe37e_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:26:14.290Z"
+    },
+    "3983575454_6f39abff2b_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:26:24.955Z"
+    },
+    "4347329846_7d5cfc4106_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:26:49.783Z"
+    },
+    "45528642384_c2864822e9_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:27:03.875Z"
+    },
+    "45539849741_7da4bc91a0_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:27:21.097Z"
+    },
+    "4663091455_b5734eb0bf_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:27:38.792Z"
+    },
+    "4783752333_d772608091_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:28:02.431Z"
+    },
+    "48089352857_ffac97e32d_o": {
+      "source": "custom",
+      "customCaption": "An empty wooden diner table and bench hold condiment bottles and a small menu holder beneath the projected word “BREAKFAST” that's being cast by a shadow from light through a window",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:37:46.080Z"
+    },
+    "4847805597_fbb7b3f01f_o": {
+      "source": "custom",
+      "customCaption": "A stemmed glass of creamy white dessert topped with berries, red sauce, and crumbs, on a white tablecloth with an out-of-focus background of figures, napkins, and the same dessert",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:37:42.281Z"
+    },
+    "48821253626_a10bc5a6a9_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:38:28.740Z"
+    },
+    "49139345791_4a06fa0414_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:39:04.110Z"
+    },
+    "4993047212_b0808a3587_o": {
+      "source": "custom",
+      "customCaption": "A breakfast on a wooden table: three brown soft-boiled eggs in egg cups, toast soldiers on a cutting board, a jar of dark spread, a mug of tea, and an empty white plate.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:39:43.449Z"
+    },
+    "52403450818_533080b08f_o": {
+      "source": "custom",
+      "customCaption": "An unoccupied restaurant corner contains a small table with a patchwork tablecloth, two chairs, a green booth, cream tile walls, and an orange window shade.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:40:27.961Z"
+    },
+    "5289545184_1c5e9c8ee4_o": {
+      "source": "custom",
+      "customCaption": "A white bowl of steaming broth with kale, sausage slices, red-skinned potatoes, and beans on a speckled stone counter with porcelain wares behind it",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:42:32.736Z"
+    },
+    "53054019117_284950c654_o": {
+      "source": "custom",
+      "customCaption": "A market-counter noodle stall with a neon Chinese sign overhead, customers on stools, and plants. The kitchen is open so the customers can see inside of it.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:43:35.483Z"
+    },
+    "53284561304_55ec6aa107_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:44:26.547Z"
+    },
+    "54537455538_31bc7d135b_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:44:56.080Z"
+    },
+    "54633970245_12d10d3c4d_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:45:06.608Z"
+    },
+    "55155000552_724f3bd663_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:45:28.306Z"
+    },
+    "55159005620_e333256054_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:46:09.471Z"
+    },
+    "55159852771_8e3a71e863_o": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:46:33.470Z"
+    },
+    "55177905037_091326d4c4_o": {
+      "source": "custom",
+      "customCaption": "A white bowl of red seafood stew with prawns coming out of the sides, squid tentacles, lemon, sliced yellow and orange bell peppers, and chopped herbs.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:47:48.079Z"
+    },
+    "55187559470_0338037927_o": {
+      "source": "custom",
+      "customCaption": "A breakfast plate of brown bread being buttered, with cheese, salami, a thick jam-topped cookie, and a slice of marble cake on a wooden table.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:48:30.854Z"
+    },
+    "55222116982_05ba219534_o": {
+      "source": "custom",
+      "customCaption": "A Chinese restaurant window nook with a red wall, hanging cone lamps, condiment jars on the sill, Chinese writing on the windows, and a street outside.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:49:24.999Z"
+    },
+    "5598524642_f14fdeb80b_o": {
+      "source": "custom",
+      "customCaption": "A white bowl holds red and white shaved frozen dessert split nicely in half, topped with blueberries and fresh mint leaves and little pockets of a brown sauce.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:50:26.241Z"
+    },
+    "6262027700_11886d49c2_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:50:57.174Z"
+    },
+    "6598764327_e9a861da60_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:51:08.644Z"
+    },
+    "6797333313_0122b75d31_o": {
+      "source": "custom",
+      "customCaption": "Bruschetta is covered with chopped tomato, onion, green herbs, and a small amount of sprinkled pepper on a restaurant plate.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:52:02.513Z"
+    },
+    "7539155852_9b477f161d_o": {
+      "source": "custom",
+      "customCaption": "An orange passion-fruit smoothie in a clear plastic cup with a straw sits on a restaurant table with white napkins in the background.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:52:34.428Z"
+    },
+    "861660764_ba70757e7f_o": {
+      "source": "custom",
+      "customCaption": "A lively scene with people actively dining at wooden tables covered with blue cloths in an outdoor courtyard with string lights and streetlamps at dusk, surrounded by moving trees.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:54:40.873Z"
+    },
+    "8648053726_28b9fa0649_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:54:52.935Z"
+    },
+    "9884293004_ffbb0488d4_o": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:55:07.042Z"
+    },
+    "delicious-meal": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:55:32.108Z"
+    },
+    "food-1494235611kDr": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:55:42.289Z"
+    },
+    "KT's Wedding 13-0178": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:55:51.458Z"
+    },
+    "PXL_20250718_052316657.MP": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:56:13.989Z"
+    },
+    "PXL_20250816_201312842.MP": {
+      "source": "custom",
+      "customCaption": "A small, well-composed seafood course of pale slices, mushroom pieces, and thin black garnish over a dark sauce ring on a wide white plate with a gold rim, on a white tablecloth, with a water glass at the edge.",
+      "include": false,
+      "reviewedAt": "2026-09-21T05:57:01.319Z"
+    },
+    "PXL_20250816_203428719.MP": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:57:27.141Z"
+    },
+    "PXL_20251004_023253430.MP": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:57:43.598Z"
+    },
+    "PXL_20260705_153618396.MP": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:58:13.051Z"
+    },
+    "StockSnap_NKJCDSIIRB": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:58:21.109Z"
+    },
+    "StockSnap_PROXEBKRSP": {
+      "source": "codex",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:58:31.586Z"
+    },
+    "StockSnap_SCRJFFD2TZ": {
+      "source": "grok",
+      "customCaption": null,
+      "include": false,
+      "reviewedAt": "2026-09-21T05:58:41.219Z"
+    }
+  },
+  "updatedAt": "2026-09-21T05:58:41.219Z"
+}
