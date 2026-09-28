@@ -12,22 +12,28 @@ if [[ -f "${ROOT}/.venv/bin/activate" ]]; then
   source "${ROOT}/.venv/bin/activate"
 fi
 
-echo "==== train start $(date -u +%Y-%m-%dT%H:%M:%SZ) host=$(hostname) ===="
+if command -v python >/dev/null 2>&1; then
+  PYTHON=python
+else
+  PYTHON=python3
+fi
+
+echo "==== train start $(date -u +%Y-%m-%dT%H:%M:%SZ) host=$(hostname) python=${PYTHON} ===="
 status=0
 if [[ ! -f "${ROOT}/outputs/samples/baseline/manifest.json" ]]; then
   echo "==== held-out Base baseline start $(date -u +%Y-%m-%dT%H:%M:%SZ) ===="
-  python -m src.inference --config config.yaml || status=$?
+  "${PYTHON}" -m src.inference --config config.yaml || status=$?
   echo "==== held-out Base baseline exit ${status} $(date -u +%Y-%m-%dT%H:%M:%SZ) ===="
 else
   echo "Reusing preserved held-out Base baseline manifest."
 fi
 if [[ "${status}" -eq 0 ]]; then
-  python -m src.train --config config.yaml "$@" || status=$?
+  "${PYTHON}" -m src.train --config config.yaml "$@" || status=$?
 fi
 echo "==== train exit ${status} $(date -u +%Y-%m-%dT%H:%M:%SZ) ===="
 if [[ "${status}" -eq 0 ]]; then
   echo "==== development renders start $(date -u +%Y-%m-%dT%H:%M:%SZ) ===="
-  python -m src.development --config config.yaml || status=$?
+  "${PYTHON}" -m src.development --config config.yaml || status=$?
   echo "==== development renders exit ${status} $(date -u +%Y-%m-%dT%H:%M:%SZ) ===="
 fi
 sync

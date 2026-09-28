@@ -9,9 +9,11 @@ dataset. Each caption filename matches the stem of a source image in `data/`.
   describe visible image contents only.
 
 Keep caption generators separate until the final 18–24 training images and their
-captions have been reviewed. To promote a caption, copy the selected source image
-and exactly one chosen caption into `data/train/` with the same stem. Do not mix
-caption wording from different generators without recording that edit.
+captions have been reviewed. Promote the included set with
+`python -m src.prepare_train --config config.yaml`. That writes a downscaled JPEG
+and exactly one chosen caption into `data/train/` with the same stem. Originals
+in `data/` stay at full resolution. Do not mix caption wording from different
+generators without recording that edit.
 
 For the style LoRA, the intended training captions name the variable content in
 the picture and leave the shared lighting, camera technique, composition, color

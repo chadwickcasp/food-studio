@@ -6,6 +6,7 @@ import type {
   CaptionItem,
   CaptionSelection,
   CheckpointExperiment,
+  CheckpointSelection,
   RunSummary,
 } from "./types";
 
@@ -28,7 +29,7 @@ export const api = {
     }),
   runs: () => request<{ runs: RunSummary[] }>("/api/runs"),
   abSessions: () => request<{ sessions: AbSessionSummary[] }>("/api/ab/sessions"),
-  createAbSession: (value: { name: string; runA: string; runB: string }) =>
+  createAbSession: (value: { name: string; runs: string[] }) =>
     request<{ id: string }>("/api/ab/sessions", { method: "POST", body: JSON.stringify(value) }),
   abSession: (id: string) => request<AbSession>(`/api/ab/sessions/${encodeURIComponent(id)}`),
   saveAbResponse: (sessionId: string, itemId: string, value: AbResponse) =>
@@ -39,6 +40,7 @@ export const api = {
   revealAbSession: (id: string) =>
     request<AbReveal>(`/api/ab/sessions/${encodeURIComponent(id)}/reveal`, { method: "POST" }),
   checkpoints: () => request<{ experiments: CheckpointExperiment[] }>("/api/checkpoints"),
+  checkpointSelection: () => request<{ selection: CheckpointSelection | null }>("/api/checkpoints/selection"),
   saveCheckpoint: (value: {
     experimentId: string;
     step: string;

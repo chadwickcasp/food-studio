@@ -22,6 +22,8 @@ export interface RunSummary {
   label: string;
   modelId: string;
   adapterPath: string | null;
+  weightsLabel: string;
+  promptSet: string;
   sampleCount: number;
 }
 
@@ -34,7 +36,7 @@ export interface AbSessionSummary {
   createdAt: string;
 }
 
-export type AbChoice = "a" | "tie" | "b";
+export type AbChoice = "tie" | (string & {});
 
 export interface AbResponse {
   choices: Record<string, AbChoice | null>;
@@ -52,22 +54,25 @@ export interface AbSession {
     id: string;
     prompt: string;
     seed: number;
-    aImageUrl: string;
-    bImageUrl: string;
+    images: Array<{ letter: string; url: string }>;
   }>;
 }
 
 export interface AbReveal {
-  runA: string;
-  runB: string;
-  assignments: Record<string, { aSource: "runA" | "runB"; bSource: "runA" | "runB" }>;
+  assignments: Record<string, Record<string, string>>;
 }
 
 export interface CheckpointPrompt {
   id: string;
+  groupId?: string;
   prompt: string;
   seed: number;
   samples: Record<string, string>;
+}
+
+export interface CheckpointWeight {
+  step: string;
+  label: string;
 }
 
 export interface CheckpointExperiment {
@@ -75,5 +80,14 @@ export interface CheckpointExperiment {
   name?: string;
   modelId?: string;
   steps: Array<string | number>;
+  weights?: CheckpointWeight[];
   prompts: CheckpointPrompt[];
+}
+
+export interface CheckpointSelection {
+  experimentId: string;
+  selectedStep: string;
+  promptChoices: Record<string, string>;
+  notes: string;
+  selectedAt: string;
 }

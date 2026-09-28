@@ -12,7 +12,7 @@ Record every training or inference setting change here, especially OOM recoverie
 
 | Date | Change | Reason |
 | --- | --- | --- |
-|  |  |  |
+| 2026-09-21 | `training.max_train_steps` 500 → 1000 | The first 500 steps finished. Continue from checkpoint 500 so steps 550–1000 can be compared on the development set. |
 
 ## Rubric
 

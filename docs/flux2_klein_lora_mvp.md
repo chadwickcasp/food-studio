@@ -105,7 +105,7 @@ These are conservative launch values, not tuned recommendations. Keep them fixed
 | Learning rate | `1e-4` |
 | Scheduler | constant |
 | Warmup | 50 steps |
-| Maximum training steps | 500 |
+| Maximum training steps | 1000 (raised from 500 after the first completed run; see `outputs/observations.md`) |
 | Checkpoint interval | every 50 optimizer steps |
 | Training seed | fixed and recorded, for example `42` |
 
@@ -117,8 +117,8 @@ The official [Diffusers FLUX.2 training guide](https://github.com/huggingface/di
 
 ### Before training
 
-1. Keep separate development and validation sets. Use eight development prompts only for checkpoint selection and eight held-out validation prompts only for the final comparison.
-2. Give each prompt a fixed random seed and stable ID in `data/development_prompts.json` or `data/validation_prompts.json`.
+1. Keep separate development and validation sets. Use eight development prompts with four fixed seeds each only for checkpoint selection, and eight held-out validation prompts with one fixed seed each only for the final comparison.
+2. Give each prompt a stable ID and its pre-registered seed or seeds in `data/development_prompts.json` or `data/validation_prompts.json`.
 3. Also fix and record the model revision, image dimensions, inference steps, guidance value, scheduler, and other generation settings.
 4. Run `src/inference.py` without an adapter and save the results to `outputs/samples/baseline/`.
 

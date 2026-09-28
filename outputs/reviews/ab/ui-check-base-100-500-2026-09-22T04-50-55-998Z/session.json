@@ -1,0 +1,168 @@
+{
+  "version": 2,
+  "id": "ui-check-base-100-500-2026-09-22T04-50-55-998Z",
+  "name": "UI check base 100 500",
+  "createdAt": "2026-09-22T04:50:56.002Z",
+  "status": "active",
+  "criteria": [
+    "Style match",
+    "Prompt fidelity",
+    "Food presentation",
+    "Artifacts"
+  ],
+  "items": [
+    {
+      "id": "dev-01",
+      "prompt": "Sliced pan-seared duck breast with celeriac puree, charred radicchio, and sour cherry jus on a matte charcoal plate, close three-quarter view, directional window light, restrained dark restaurant table.",
+      "seed": 1101,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/500/dev-01.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/base/dev-01.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/100/dev-01.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-02",
+      "prompt": "A roasted cauliflower steak with tahini, toasted almonds, pomegranate seeds, and parsley on a neutral ceramic plate, three-quarter view, soft side light, minimal tabletop props.",
+      "seed": 1202,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/100/dev-02.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/base/dev-02.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/500/dev-02.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-03",
+      "prompt": "A vanilla-poached pear with a mascarpone quenelle, hazelnut crumble, and a small pool of caramel on a cream stoneware plate, close side view, warm directional restaurant light.",
+      "seed": 1303,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/base/dev-03.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/100/dev-03.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/500/dev-03.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-04",
+      "prompt": "A tall glass of iced matcha tonic with lime peel and clear ice, standing on a pale stone bar, three-quarter product view, clean natural side light and an uncluttered background.",
+      "seed": 1404,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/500/dev-04.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/100/dev-04.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/base/dev-04.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-05",
+      "prompt": "Handmade spinach and ricotta ravioli with brown butter, sage leaves, and grated parmesan in a wide shallow bowl, photographed directly overhead on a dark wood table.",
+      "seed": 1505,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/base/dev-05.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/500/dev-05.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/100/dev-05.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-06",
+      "prompt": "A short stack of buttermilk pancakes with roasted peaches, whipped mascarpone, and maple syrup on a warm ceramic plate, close three-quarter view on a simple linen-covered breakfast table.",
+      "seed": 1606,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/100/dev-06.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/500/dev-06.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/base/dev-06.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-07",
+      "prompt": "Seared scallops with sweet corn puree, charred corn kernels, and herb oil on a matte white plate, low three-quarter angle, controlled side light, restrained restaurant setting.",
+      "seed": 1707,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/500/dev-07.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/base/dev-07.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/100/dev-07.png"
+        }
+      ]
+    },
+    {
+      "id": "dev-08",
+      "prompt": "Pappardelle with wild mushrooms, browned butter, parmesan, and fresh thyme in a dark shallow bowl, close three-quarter view, directional ambient light on a neutral tabletop.",
+      "seed": 1808,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/development/rank-8-initial-run/base/dev-08.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/development/rank-8-initial-run/100/dev-08.png"
+        },
+        {
+          "letter": "C",
+          "image": "outputs/development/rank-8-initial-run/500/dev-08.png"
+        }
+      ]
+    }
+  ],
+  "responses": {}
+}

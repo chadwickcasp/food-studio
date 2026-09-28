@@ -15,6 +15,10 @@ diffusers_revision: 80c7ed262aeffbeb43ef13ae04baeb9b84515a69
 
 dataset:
   train_dir: data/train
+  # Short-side cap for copies written to train_dir. The trainer still
+  # cover-resizes and center-crops to training.resolution. Originals in data/
+  # are left unchanged.
+  train_short_edge: 1024
 
 output:
   checkpoints_dir: outputs/checkpoints
@@ -44,7 +48,7 @@ training:
   learning_rate: 1.0e-4
   lr_scheduler: constant
   lr_warmup_steps: 50
-  max_train_steps: 500
+  max_train_steps: 1000
   checkpoint_steps: 50
   max_grad_norm: 1.0
   weighting_scheme: none

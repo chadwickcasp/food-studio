@@ -10,7 +10,15 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from src.experiment import load_config, load_validation_prompts, write_json
+from src.experiment import (
+    ValidationPrompt,
+    load_config,
+    load_json_object,
+    load_validation_prompts,
+    repo_relative,
+    saved_render_matches,
+    write_json,
+)
 
 logger = logging.getLogger("food_studio.development")
 
@@ -43,22 +51,29 @@ def safe_slug(value: str) -> str:
     return slug[:64] or "development"
 
 
-def run_complete(output_dir: Path, prompt_ids: list[str]) -> bool:
-    return (output_dir / "manifest.json").is_file() and all(
-        (output_dir / f"{prompt_id}.png").is_file() for prompt_id in prompt_ids
-    )
+def run_complete(
+    output_dir: Path,
+    prompts: list[ValidationPrompt],
+    config: dict,
+    lora_path: Path | None,
+) -> bool:
+    manifest = load_json_object(output_dir / "manifest.json")
+    if manifest is None:
+        return False
+    return saved_render_matches(output_dir, prompts, manifest, config, lora_path)
 
 
 def render_run(
     *,
+    config: dict,
     config_path: Path,
     prompts_path: Path,
     output_dir: Path,
-    prompt_ids: list[str],
+    prompts: list[ValidationPrompt],
     lora_path: Path | None,
     force: bool,
 ) -> None:
-    if not force and run_complete(output_dir, prompt_ids):
+    if not force and run_complete(output_dir, prompts, config, lora_path):
         logger.info("Reusing complete development run in %s", output_dir)
         return
     command = [
@@ -74,6 +89,8 @@ def render_run(
     ]
     if lora_path is not None:
         command.extend(["--lora", str(lora_path)])
+    if not force:
+        command.append("--reuse-existing")
     subprocess.run(command, check=True)
 
 
@@ -84,7 +101,6 @@ def main() -> None:
     config_path: Path = config["config_path"]
     prompts_path: Path = config["inference"]["development_prompts"]
     prompts = load_validation_prompts(prompts_path)
-    prompt_ids = [item.prompt_id for item in prompts]
     steps = checkpoint_steps(
         config["training"]["max_train_steps"],
         config["training"]["checkpoint_steps"],
@@ -98,19 +114,21 @@ def main() -> None:
 
     experiment_dir: Path = config["output"]["development_dir"] / safe_slug(args.name)
     render_run(
+        config=config,
         config_path=config_path,
         prompts_path=prompts_path,
         output_dir=experiment_dir / "base",
-        prompt_ids=prompt_ids,
+        prompts=prompts,
         lora_path=None,
         force=args.force,
     )
     for step in steps:
         render_run(
+            config=config,
             config_path=config_path,
             prompts_path=prompts_path,
             output_dir=experiment_dir / str(step),
-            prompt_ids=prompt_ids,
+            prompts=prompts,
             lora_path=checkpoints_dir / f"checkpoint-{step}",
             force=args.force,
         )
@@ -127,12 +145,13 @@ def main() -> None:
             "prompts": [
                 {
                     "id": item.prompt_id,
+                    "groupId": item.prompt_group_id,
                     "prompt": item.prompt,
                     "seed": item.seed,
                     "samples": {
-                        "base": str((experiment_dir / "base" / f"{item.prompt_id}.png").resolve()),
+                        "base": repo_relative(experiment_dir / "base" / f"{item.prompt_id}.png"),
                         **{
-                            str(step): str((experiment_dir / str(step) / f"{item.prompt_id}.png").resolve())
+                            str(step): repo_relative(experiment_dir / str(step) / f"{item.prompt_id}.png")
                             for step in steps
                         },
                     },

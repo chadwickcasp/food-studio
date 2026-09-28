@@ -194,6 +194,12 @@ def latest_checkpoint(checkpoints_dir: Path) -> Path | None:
     return sorted(checkpoints, key=lambda path: int(path.name.split("-")[1]))[-1]
 
 
+def select_timesteps(noise_scheduler, u: torch.Tensor) -> torch.Tensor:
+    """Index the scheduler timetable on the same device as the sampled densities."""
+    indices = (u * noise_scheduler.config.num_train_timesteps).long()
+    return noise_scheduler.timesteps.to(device=indices.device)[indices]
+
+
 def sigmas_for_timesteps(noise_scheduler, timesteps: torch.Tensor, n_dim: int, dtype: torch.dtype) -> torch.Tensor:
     sigmas = noise_scheduler.sigmas.to(device=timesteps.device, dtype=dtype)
     schedule = noise_scheduler.timesteps.to(timesteps.device)
@@ -340,6 +346,8 @@ def make_optimizer(transformer: torch.nn.Module, config: dict[str, Any], acceler
     params = [param for param in transformer.parameters() if param.requires_grad]
     if training["use_8bit_adam"]:
         try:
+            # Optional CUDA extra. Importing it at module level would make training
+            # fail to start on machines that are not using 8-bit Adam.
             import bitsandbytes as bnb
         except ImportError as exc:
             raise ImportError("training.use_8bit_adam is true but bitsandbytes is not installed.") from exc
@@ -430,8 +438,7 @@ def batch_loss(
         batch_size=model_input.shape[0],
         device=model_input.device,
     )
-    timestep_indices = (u * models.noise_scheduler_copy.config.num_train_timesteps).long()
-    timesteps = models.noise_scheduler_copy.timesteps[timestep_indices].to(model_input.device)
+    timesteps = select_timesteps(models.noise_scheduler_copy, u).to(model_input.device)
     sigmas = sigmas_for_timesteps(models.noise_scheduler_copy, timesteps, model_input.ndim, model_input.dtype)
     packed = Flux2KleinPipeline._pack_latents((1.0 - sigmas) * model_input + sigmas * noise)
 

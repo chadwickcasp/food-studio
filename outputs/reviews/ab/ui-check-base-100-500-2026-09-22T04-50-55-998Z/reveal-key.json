@@ -1,0 +1,58 @@
+{
+  "runs": [
+    {
+      "id": "outputs/development/rank-8-initial-run/base/manifest.json",
+      "label": "base"
+    },
+    {
+      "id": "outputs/development/rank-8-initial-run/100/manifest.json",
+      "label": "checkpoint-100/pytorch_lora_weights.safetensors"
+    },
+    {
+      "id": "outputs/development/rank-8-initial-run/500/manifest.json",
+      "label": "checkpoint-500/pytorch_lora_weights.safetensors"
+    }
+  ],
+  "assignments": {
+    "dev-01": {
+      "A": 2,
+      "B": 0,
+      "C": 1
+    },
+    "dev-02": {
+      "A": 1,
+      "B": 0,
+      "C": 2
+    },
+    "dev-03": {
+      "A": 0,
+      "B": 1,
+      "C": 2
+    },
+    "dev-04": {
+      "A": 2,
+      "B": 1,
+      "C": 0
+    },
+    "dev-05": {
+      "A": 0,
+      "B": 2,
+      "C": 1
+    },
+    "dev-06": {
+      "A": 1,
+      "B": 2,
+      "C": 0
+    },
+    "dev-07": {
+      "A": 2,
+      "B": 0,
+      "C": 1
+    },
+    "dev-08": {
+      "A": 0,
+      "B": 1,
+      "C": 2
+    }
+  }
+}

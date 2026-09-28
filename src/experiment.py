@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -10,6 +11,22 @@ from typing import Any, Iterable, Mapping, Sequence
 import yaml
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
+LORA_WEIGHTS_NAME = "pytorch_lora_weights.safetensors"
+RENDER_MANIFEST_FIELDS = (
+    "model_id",
+    "model_revision",
+    "diffusers_revision",
+    "adapter_scale",
+    "width",
+    "height",
+    "num_inference_steps",
+    "guidance_scale",
+    "scheduler",
+    "precision",
+    "max_sequence_length",
+    "text_encoder_out_layers",
+)
+ROOT = Path(__file__).resolve().parents[1]
 
 # Copied from huggingface/diffusers@80c7ed262aeffbeb43ef13ae04baeb9b84515a69
 # examples/dreambooth/train_dreambooth_lora_flux2_klein.py when --lora_layers is unset.
@@ -33,6 +50,7 @@ class ImageCaptionPair:
 @dataclass(frozen=True)
 class ValidationPrompt:
     prompt_id: str
+    prompt_group_id: str
     prompt: str
     seed: int
 
@@ -133,10 +151,20 @@ def load_config(config_path: Path) -> dict[str, Any]:
     if width % 16 != 0 or height % 16 != 0:
         raise ValueError("inference width and height must be divisible by 16")
 
+    train_short_edge = _require_int(dataset, "train_short_edge", "dataset.train_short_edge")
+    if train_short_edge < resolution:
+        raise ValueError("dataset.train_short_edge must be >= training.resolution")
+
+    train_dir = resolve_path(path, _require_str(dataset, "train_dir", "dataset.train_dir"))
     config = {
         "model": {"id": model_id, "revision": model_revision},
         "diffusers_revision": diffusers_revision,
-        "dataset": {"train_dir": resolve_path(path, _require_str(dataset, "train_dir", "dataset.train_dir"))},
+        "dataset": {
+            "train_dir": train_dir,
+            "train_short_edge": train_short_edge,
+            "selections_path": train_dir.parent / "captions" / "selections.json",
+            "source_dir": train_dir.parent,
+        },
         "output": {
             "checkpoints_dir": resolve_path(
                 path, _require_str(output, "checkpoints_dir", "output.checkpoints_dir")
@@ -295,23 +323,51 @@ def load_validation_prompts(path: Path) -> list[ValidationPrompt]:
         raise ValueError(f"{path} must contain a non-empty prompts list")
 
     prompts: list[ValidationPrompt] = []
-    seen_ids: set[str] = set()
+    seen_group_ids: set[str] = set()
+    seen_sample_ids: set[str] = set()
     for index, item in enumerate(raw_prompts):
         if not isinstance(item, dict):
             raise ValueError(f"prompts[{index}] must be an object")
         prompt_id = item.get("id")
         prompt = item.get("prompt")
         seed = item.get("seed")
+        seeds = item.get("seeds")
         if not isinstance(prompt_id, str) or not prompt_id.strip():
             raise ValueError(f"prompts[{index}].id must be a non-empty string")
-        if prompt_id in seen_ids:
+        prompt_id = prompt_id.strip()
+        if prompt_id in seen_group_ids:
             raise ValueError(f"Duplicate validation prompt id: {prompt_id}")
         if not isinstance(prompt, str) or not prompt.strip():
             raise ValueError(f"prompts[{index}].prompt must be a non-empty string")
-        if not isinstance(seed, int) or isinstance(seed, bool):
-            raise ValueError(f"prompts[{index}].seed must be an integer")
-        seen_ids.add(prompt_id)
-        prompts.append(ValidationPrompt(prompt_id=prompt_id.strip(), prompt=prompt.strip(), seed=seed))
+        if seed is not None and seeds is not None:
+            raise ValueError(f"prompts[{index}] must define either 'seed' or 'seeds', not both")
+        if seeds is None:
+            seeds = [seed]
+        if (
+            not isinstance(seeds, list)
+            or not seeds
+            or any(not isinstance(value, int) or isinstance(value, bool) for value in seeds)
+        ):
+            raise ValueError(f"prompts[{index}].seeds must be a non-empty list of integers")
+        if len(set(seeds)) != len(seeds):
+            raise ValueError(f"prompts[{index}].seeds must not contain duplicates")
+
+        seen_group_ids.add(prompt_id)
+        for seed_index, seed_value in enumerate(seeds):
+            # Preserve the original sample ID and filename for the first seed so an
+            # expanded development run can reuse already-rendered checkpoint images.
+            sample_id = prompt_id if seed_index == 0 else f"{prompt_id}-seed-{seed_value}"
+            if sample_id in seen_sample_ids:
+                raise ValueError(f"Duplicate prompt sample id: {sample_id}")
+            seen_sample_ids.add(sample_id)
+            prompts.append(
+                ValidationPrompt(
+                    prompt_id=sample_id,
+                    prompt_group_id=prompt_id,
+                    prompt=prompt.strip(),
+                    seed=seed_value,
+                )
+            )
     return prompts
 
 
@@ -344,6 +400,150 @@ def assert_lora_only_trainable(
             f"Examples: {non_lora[:8]}"
         )
     return trainable
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        while True:
+            block = handle.read(1024 * 1024)
+            if not block:
+                break
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def lora_weights_file(lora_path: Path | None) -> Path | None:
+    if lora_path is None:
+        return None
+    resolved = lora_path.expanduser().resolve()
+    if resolved.is_file():
+        return resolved
+    weights = resolved / LORA_WEIGHTS_NAME
+    if not weights.is_file():
+        raise FileNotFoundError(f"No LoRA weights file in {resolved}. Expected {LORA_WEIGHTS_NAME}.")
+    return weights
+
+
+def current_render_settings(config: Mapping[str, Any], lora_path: Path | None) -> dict[str, Any]:
+    """Inference settings and adapter identity recorded on a sample manifest."""
+    inference = config["inference"]
+    weights = lora_weights_file(lora_path)
+    if lora_path is None:
+        adapter_path = None
+        adapter_scale = None
+    else:
+        adapter_path = str(lora_path.expanduser().resolve())
+        adapter_scale = config["lora"]["adapter_scale"]
+    return {
+        "model_id": config["model"]["id"],
+        "model_revision": config["model"]["revision"],
+        "diffusers_revision": config["diffusers_revision"],
+        "adapter_path": adapter_path,
+        "adapter_scale": adapter_scale,
+        "adapter_sha256": None if weights is None else file_sha256(weights),
+        "width": inference["width"],
+        "height": inference["height"],
+        "num_inference_steps": inference["num_inference_steps"],
+        "guidance_scale": inference["guidance_scale"],
+        "scheduler": inference["scheduler"],
+        "precision": inference["precision"],
+        "cpu_offload": inference["cpu_offload"],
+        "max_sequence_length": inference["max_sequence_length"],
+        "text_encoder_out_layers": list(inference["text_encoder_out_layers"]),
+    }
+
+
+def _outputs_suffix(path: str) -> str | None:
+    parts = Path(path).parts
+    if "outputs" not in parts:
+        return None
+    index = parts.index("outputs")
+    return Path(*parts[index:]).as_posix()
+
+
+def adapters_match(previous_path: object, current_path: object) -> bool:
+    if previous_path is None or current_path is None:
+        return previous_path is None and current_path is None
+    if not isinstance(previous_path, str) or not isinstance(current_path, str):
+        return False
+    if previous_path == current_path:
+        return True
+    previous = Path(previous_path)
+    current = Path(current_path)
+    if previous.exists() and current.exists():
+        return previous.resolve() == current.resolve()
+    previous_suffix = _outputs_suffix(previous_path)
+    current_suffix = _outputs_suffix(current_path)
+    return previous_suffix is not None and previous_suffix == current_suffix
+
+
+def render_request_matches(previous: Mapping[str, Any], current: Mapping[str, Any]) -> bool:
+    """True when a saved manifest describes the render that is about to run."""
+    for field in RENDER_MANIFEST_FIELDS:
+        if field not in previous or previous[field] != current[field]:
+            return False
+    if not adapters_match(previous.get("adapter_path"), current.get("adapter_path")):
+        return False
+    if "cpu_offload" in previous and previous["cpu_offload"] != current["cpu_offload"]:
+        return False
+    # Older manifests have no adapter hash. They can match once; the rewrite records
+    # adapter_sha256, and a later change to the weights file will miss.
+    if "adapter_sha256" in previous and previous["adapter_sha256"] != current["adapter_sha256"]:
+        return False
+    return True
+
+
+def sample_record_matches(record: Mapping[str, Any] | None, item: ValidationPrompt) -> bool:
+    if not isinstance(record, Mapping):
+        return False
+    return (
+        record.get("id") == item.prompt_id
+        and record.get("prompt") == item.prompt
+        and record.get("seed") == item.seed
+    )
+
+
+def saved_render_matches(
+    output_dir: Path,
+    prompts: Sequence[ValidationPrompt],
+    manifest: Mapping[str, Any],
+    config: Mapping[str, Any],
+    lora_path: Path | None,
+) -> bool:
+    current = current_render_settings(config, lora_path)
+    if not render_request_matches(manifest, current):
+        return False
+    samples = manifest.get("samples", [])
+    if not isinstance(samples, list):
+        return False
+    records = {record.get("id"): record for record in samples if isinstance(record, dict)}
+    for item in prompts:
+        image_path = output_dir / f"{item.prompt_id}.png"
+        if not image_path.is_file():
+            return False
+        if not sample_record_matches(records.get(item.prompt_id), item):
+            return False
+    return True
+
+
+def load_json_object(path: Path) -> dict[str, Any] | None:
+    if not path.is_file():
+        return None
+    with path.open(encoding="utf-8") as handle:
+        loaded = json.load(handle)
+    if not isinstance(loaded, dict):
+        raise ValueError(f"{path} must be a JSON object")
+    return loaded
+
+
+def repo_relative(path: Path) -> str:
+    """Return a checkout-relative POSIX path so manifests stay valid on another machine."""
+    resolved = path.expanduser().resolve()
+    try:
+        return resolved.relative_to(ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
 
 
 def write_json(path: Path, payload: Mapping[str, Any]) -> None:

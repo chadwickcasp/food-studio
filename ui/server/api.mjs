@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -20,12 +21,30 @@ function relativeToRepo(filePath) {
   return path.relative(repoRoot, filePath).split(path.sep).join("/");
 }
 
-function safeRepoPath(relativePath) {
-  const resolved = path.resolve(repoRoot, relativePath);
-  if (resolved !== repoRoot && !resolved.startsWith(`${repoRoot}${path.sep}`)) {
-    throw new Error("Path escapes the repository.");
+const portableRoots = ["outputs/", "data/"];
+
+function isInsideRepo(resolved) {
+  return resolved === repoRoot || resolved.startsWith(`${repoRoot}${path.sep}`);
+}
+
+function safeRepoPath(inputPath) {
+  const raw = String(inputPath);
+  const direct = path.resolve(repoRoot, raw);
+  if (isInsideRepo(direct)) return direct;
+
+  // Manifests written on the training VM store absolute paths such as
+  // /home/chadcasper/food-studio/outputs/... Remap the outputs/ or data/ suffix
+  // onto this checkout when that file is present here.
+  if (path.isAbsolute(raw)) {
+    const parts = path.normalize(raw).split(path.sep).filter(Boolean);
+    for (let index = 1; index < parts.length; index += 1) {
+      const relative = parts.slice(index).join("/");
+      if (!portableRoots.some((prefix) => relative.startsWith(prefix))) continue;
+      const candidate = path.resolve(repoRoot, relative);
+      if (isInsideRepo(candidate) && existsSync(candidate)) return candidate;
+    }
   }
-  return resolved;
+  throw new Error("Path escapes the repository.");
 }
 
 async function readJson(filePath, fallback = null) {
@@ -148,6 +167,8 @@ async function discoverRuns() {
       label: relativeToRepo(path.dirname(manifestPath)).replace(/^outputs\//, ""),
       modelId: manifest.model_id ?? "Unknown model",
       adapterPath: manifest.adapter_path ?? null,
+      weightsLabel: weightsLabel(manifest.adapter_path),
+      promptSet: promptSetLabel(manifest.prompts_path),
       sampleCount: samples.length,
     });
   }
@@ -183,20 +204,56 @@ function safeSlug(value) {
     .slice(0, 48) || "review";
 }
 
-function shuffled(runA, runB, sessionId, itemId) {
-  const digest = crypto.createHash("sha256").update(`${sessionId}:${itemId}`).digest();
-  return digest[0] % 2 === 0
-    ? { a: runA, b: runB, aSource: "runA", bSource: "runB" }
-    : { a: runB, b: runA, aSource: "runB", bSource: "runA" };
+function weightsLabel(adapterPath) {
+  if (!adapterPath) return "base";
+  const parts = String(adapterPath).split(/[/\\]/).filter(Boolean);
+  const file = parts.at(-1) ?? "adapter";
+  if (file.endsWith(".safetensors")) return parts.slice(-2).join("/");
+  return `${file}/pytorch_lora_weights.safetensors`;
+}
+
+function promptSetLabel(promptsPath) {
+  if (!promptsPath) return "unknown prompts";
+  return String(promptsPath).split(/[/\\]/).filter(Boolean).at(-1) ?? "unknown prompts";
+}
+
+function letterForIndex(index) {
+  if (index < 0 || index > 25) throw new Error("A comparison can include at most 26 models.");
+  return String.fromCharCode(65 + index);
+}
+
+function shuffleSources(count, sessionId, itemId) {
+  const ranked = Array.from({ length: count }, (_, sourceIndex) => {
+    const digest = crypto.createHash("sha256").update(`${sessionId}:${itemId}:${sourceIndex}`).digest();
+    return { sourceIndex, rank: digest.readUInt32BE(0) };
+  });
+  ranked.sort((left, right) => left.rank - right.rank || left.sourceIndex - right.sourceIndex);
+  return ranked.map((entry, position) => ({
+    letter: letterForIndex(position),
+    sourceIndex: entry.sourceIndex,
+  }));
+}
+
+function selectedRunIds(body) {
+  const requested = Array.isArray(body.runs) ? body.runs : [body.runA, body.runB];
+  const runIds = requested.map((id) => String(id ?? "").trim()).filter(Boolean);
+  if (runIds.length < 2) throw new Error("Choose at least two models.");
+  if (new Set(runIds).size !== runIds.length) throw new Error("Each model can be included once.");
+  if (runIds.length > 26) throw new Error("A comparison can include at most 26 models.");
+  return runIds;
 }
 
 async function createAbSession(body) {
-  if (!body.runA || !body.runB || body.runA === body.runB) throw new Error("Choose two different runs.");
-  const [first, second] = await Promise.all([loadRun(body.runA), loadRun(body.runB)]);
+  const runIds = selectedRunIds(body);
+  const loaded = await Promise.all(runIds.map((id) => loadRun(id)));
+  assertHeldOutPair(loaded, await loadCheckpointSelection());
+  const [first] = loaded;
   const compatibleIds = [...first.samples.keys()].filter((id) => {
-    const a = first.samples.get(id);
-    const b = second.samples.get(id);
-    return b && a.prompt === b.prompt && a.seed === b.seed;
+    const reference = first.samples.get(id);
+    return loaded.every((run) => {
+      const sample = run.samples.get(id);
+      return sample && sample.prompt === reference.prompt && sample.seed === reference.seed;
+    });
   });
   if (!compatibleIds.length) throw new Error("The selected runs have no prompt-and-seed matched samples.");
 
@@ -205,21 +262,24 @@ async function createAbSession(body) {
   const folder = path.join(repoRoot, "outputs", "reviews", "ab", sessionId);
   const assignments = {};
   const items = compatibleIds.sort().map((id) => {
-    const pair = shuffled(first.samples.get(id), second.samples.get(id), sessionId, id);
-    assignments[id] = { aSource: pair.aSource, bSource: pair.bSource };
+    const order = shuffleSources(loaded.length, sessionId, id);
+    const reference = first.samples.get(id);
+    assignments[id] = Object.fromEntries(order.map((entry) => [entry.letter, entry.sourceIndex]));
     return {
       id,
-      prompt: pair.a.prompt,
-      seed: pair.a.seed,
-      aImage: pair.a.image,
-      bImage: pair.b.image,
+      prompt: reference.prompt,
+      seed: reference.seed,
+      images: order.map((entry) => ({
+        letter: entry.letter,
+        image: loaded[entry.sourceIndex].samples.get(id).image,
+      })),
     };
   });
   const criteria = Array.isArray(body.criteria) && body.criteria.length
     ? body.criteria.map(String)
     : ["Style match", "Prompt fidelity", "Food presentation", "Artifacts"];
   const session = {
-    version: 1,
+    version: 2,
     id: sessionId,
     name: String(body.name || "A/B review"),
     createdAt: new Date().toISOString(),
@@ -229,8 +289,7 @@ async function createAbSession(body) {
     responses: {},
   };
   const reveal = {
-    runA: body.runA,
-    runB: body.runB,
+    runs: runIds.map((id, index) => ({ id, label: weightsLabel(loaded[index].manifest.adapter_path) })),
     assignments,
   };
   await writeJsonAtomic(path.join(folder, "session.json"), session);
@@ -273,6 +332,22 @@ async function loadAbSession(sessionId) {
   return { folder, session };
 }
 
+function itemLetters(item) {
+  if (Array.isArray(item.images) && item.images.length) return item.images.map((image) => image.letter);
+  if (item.aImage && item.bImage) return ["A", "B"];
+  return [];
+}
+
+function imageForLetter(item, letter) {
+  const normalized = String(letter).toUpperCase();
+  if (Array.isArray(item.images)) {
+    return item.images.find((image) => image.letter.toUpperCase() === normalized)?.image ?? null;
+  }
+  if (normalized === "A") return item.aImage ?? null;
+  if (normalized === "B") return item.bImage ?? null;
+  return null;
+}
+
 function publicAbSession(session) {
   return {
     id: session.id,
@@ -284,8 +359,10 @@ function publicAbSession(session) {
       id: item.id,
       prompt: item.prompt,
       seed: item.seed,
-      aImageUrl: `/api/ab/sessions/${encodeURIComponent(session.id)}/media/${encodeURIComponent(item.id)}/a`,
-      bImageUrl: `/api/ab/sessions/${encodeURIComponent(session.id)}/media/${encodeURIComponent(item.id)}/b`,
+      images: itemLetters(item).map((letter) => ({
+        letter,
+        url: `/api/ab/sessions/${encodeURIComponent(session.id)}/media/${encodeURIComponent(item.id)}/${encodeURIComponent(letter)}`,
+      })),
     })),
   };
 }
@@ -293,11 +370,14 @@ function publicAbSession(session) {
 async function saveAbResponse(sessionId, itemId, body) {
   const { folder, session } = await loadAbSession(sessionId);
   if (!session.items.some((item) => item.id === itemId)) throw new Error("Unknown review item.");
+  const item = session.items.find((candidate) => candidate.id === itemId);
+  const allowed = new Set([...itemLetters(item).map((letter) => letter.toUpperCase()), "tie"]);
   const choices = {};
   for (const criterion of session.criteria) {
-    const value = body.choices?.[criterion];
-    if (!["a", "tie", "b"].includes(value)) {
-      throw new Error(`Choose A, tie, or B for ${criterion}.`);
+    const raw = String(body.choices?.[criterion] ?? "");
+    const value = raw.toLowerCase() === "tie" ? "tie" : raw.toUpperCase();
+    if (!allowed.has(value)) {
+      throw new Error(`Choose one model or a tie for ${criterion}.`);
     }
     choices[criterion] = value;
   }
@@ -317,13 +397,65 @@ async function revealAbSession(sessionId) {
     throw new Error("Complete every comparison before revealing model identities.");
   }
   const reveal = await readJson(path.join(folder, "reveal-key.json"));
-  const runs = await discoverRuns();
-  const runLabels = new Map(runs.map((run) => [run.id, run.label]));
-  return {
-    runA: runLabels.get(reveal.runA) ?? reveal.runA,
-    runB: runLabels.get(reveal.runB) ?? reveal.runB,
-    assignments: reveal.assignments,
-  };
+  const assignments = {};
+  if (Array.isArray(reveal.runs)) {
+    for (const [itemId, letters] of Object.entries(reveal.assignments ?? {})) {
+      assignments[itemId] = Object.fromEntries(
+        Object.entries(letters).map(([letter, sourceIndex]) => [letter, reveal.runs[sourceIndex]?.label ?? "unknown"]),
+      );
+    }
+  } else {
+    const runs = await discoverRuns();
+    const runLabels = new Map(runs.map((run) => [run.id, run.weightsLabel ?? run.label]));
+    const runA = runLabels.get(reveal.runA) ?? reveal.runA;
+    const runB = runLabels.get(reveal.runB) ?? reveal.runB;
+    for (const [itemId, pair] of Object.entries(reveal.assignments ?? {})) {
+      assignments[itemId] = {
+        A: pair.aSource === "runA" ? runA : runB,
+        B: pair.bSource === "runA" ? runA : runB,
+      };
+    }
+  }
+  return { assignments };
+}
+
+function selectionPath() {
+  return path.join(repoRoot, "outputs", "reviews", "checkpoint-selection.json");
+}
+
+async function loadCheckpointSelection() {
+  const selection = await readJson(selectionPath());
+  if (!selection?.selectedStep) return null;
+  return selection;
+}
+
+function assertHeldOutPair(loaded, selection) {
+  if (!selection) throw new Error("Choose a development checkpoint before starting the A/B test.");
+  const promptSets = new Set(loaded.map((run) => promptSetLabel(run.manifest.prompts_path)));
+  if (promptSets.size !== 1 || !promptSets.has("validation_prompts.json")) {
+    throw new Error("The A/B test uses held-out validation prompts only.");
+  }
+  const step = String(selection.selectedStep);
+  if (step === "base") throw new Error("The locked checkpoint is base, so there is no LoRA to compare.");
+  const expected = new Set(["base", `checkpoint-${step}/pytorch_lora_weights.safetensors`]);
+  const labels = loaded.map((run) => weightsLabel(run.manifest.adapter_path));
+  if (labels.length !== 2 || new Set(labels).size !== 2 || labels.some((label) => !expected.has(label))) {
+    throw new Error("The A/B test compares base with the checkpoint chosen on the development set.");
+  }
+}
+
+async function stepWeights(experimentDir, steps) {
+  const weights = [];
+  for (const step of steps) {
+    const manifest = await readJson(path.join(experimentDir, String(step), "manifest.json"));
+    const label = manifest
+      ? weightsLabel(manifest.adapter_path)
+      : String(step) === "base"
+        ? "base"
+        : `checkpoint-${step}/pytorch_lora_weights.safetensors`;
+    weights.push({ step: String(step), label });
+  }
+  return weights;
 }
 
 async function checkpointExperiments() {
@@ -336,6 +468,7 @@ async function checkpointExperiments() {
     experiments.push({
       ...value,
       id: relativeToRepo(file),
+      weights: await stepWeights(path.dirname(file), value.steps),
       prompts: value.prompts.map((prompt) => ({
         ...prompt,
         samples: Object.fromEntries(
@@ -368,7 +501,7 @@ async function saveCheckpointSelection(body) {
     notes: String(body.notes ?? "").trim(),
     selectedAt: new Date().toISOString(),
   };
-  await writeJsonAtomic(path.join(repoRoot, "outputs", "reviews", "checkpoint-selection.json"), output);
+  await writeJsonAtomic(selectionPath(), output);
   return output;
 }
 
@@ -423,15 +556,19 @@ export async function foodStudioApi(req, res, next) {
     if (req.method === "POST" && abRevealMatch) {
       return sendJson(res, 200, await revealAbSession(decodeURIComponent(abRevealMatch[1])));
     }
-    const abMediaMatch = url.pathname.match(/^\/api\/ab\/sessions\/([^/]+)\/media\/([^/]+)\/(a|b)$/);
+    const abMediaMatch = url.pathname.match(/^\/api\/ab\/sessions\/([^/]+)\/media\/([^/]+)\/([A-Za-z])$/);
     if (req.method === "GET" && abMediaMatch) {
       const { session } = await loadAbSession(decodeURIComponent(abMediaMatch[1]));
       const item = session.items.find((candidate) => candidate.id === decodeURIComponent(abMediaMatch[2]));
-      if (!item) return sendError(res, 404, "Review item not found.");
-      return await serveFile(res, safeRepoPath(abMediaMatch[3] === "a" ? item.aImage : item.bImage));
+      const image = item ? imageForLetter(item, abMediaMatch[3]) : null;
+      if (!image) return sendError(res, 404, "Review item not found.");
+      return await serveFile(res, safeRepoPath(image));
     }
     if (req.method === "GET" && url.pathname === "/api/checkpoints") {
       return sendJson(res, 200, { experiments: await checkpointExperiments() });
+    }
+    if (req.method === "GET" && url.pathname === "/api/checkpoints/selection") {
+      return sendJson(res, 200, { selection: await loadCheckpointSelection() });
     }
     if (req.method === "PUT" && url.pathname === "/api/checkpoints/selection") {
       return sendJson(res, 200, await saveCheckpointSelection(await readBody(req)));
