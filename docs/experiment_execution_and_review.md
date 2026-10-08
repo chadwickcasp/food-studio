@@ -34,7 +34,7 @@ Caption decisions are stored in `data/captions/selections.json`. Materialize the
 Use disjoint prompt sets:
 
 - Development: eight representative prompts with four fixed seeds each, used only to choose a checkpoint. The original seed remains first and three additional seeds broaden the composition sample.
-- Final evaluation: eight held-out prompts with fixed seeds, producing eight matched pairs. Do not inspect these outputs before checkpoint selection is locked.
+- Final evaluation: eight held-out prompts with four fixed seeds each. The original seed remains first. Do not inspect these outputs before checkpoint selection is locked.
 
 Both sets stay inside the initial contemporary restaurant/editorial food-photography brief. The development prompts span plated entrées, a vegetarian plate, dessert, beverage, breakfast, pasta, seafood, and an overhead composition. The final prompts cover different subjects and arrangements while remaining relevant to the same intended commercial-food use.
 
@@ -61,11 +61,11 @@ Select the checkpoint with the most wins across the 32 prompt–seed samples. Al
 ## Phase 5: final blinded A/B evaluation
 
 1. Load the selected checkpoint into a fresh inference process.
-2. Generate the eight LoRA outputs for the eight held-out prompts and fixed seeds, using the exact Base settings.
+2. Render Base and the selected LoRA for every held-out prompt and its four fixed seeds with `scripts/gcp.sh eval`. That command keeps an image when the saved manifest still matches its prompt, seed, and adapter, and generates the missing seeds. The two manifests must contain the same sample ids.
 3. Confirm that both manifests contain matching IDs, prompts, seeds, dimensions, scheduler, inference steps, guidance, precision, model revision, and runtime metadata.
 4. Open the A/B Test screen. It stays closed until the development checkpoint is saved, then it compares only unmodified Base and that safetensors file on the held-out prompts. The app randomizes A/B placement independently for each pair and withholds identities until every item is scored.
 5. Score style match, prompt fidelity, food presentation, and artifact control; add notes for memorization, repeated layouts, copied-looking examples, ambiguity, and regressions.
-6. Reveal identities only after all eight items are saved.
+6. Reveal identities only after all 32 prompt–seed items are saved.
 
 Report win/tie counts by criterion, overall preference, prompt-level failures, and representative examples selected before identities are revealed. Treat these as descriptive results, not statistical proof.
 

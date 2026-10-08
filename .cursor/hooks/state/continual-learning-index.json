@@ -1,5 +1,5 @@
 {
-  "lastRunAtMs": 1790629629209,
+  "lastRunAtMs": 1791410545447,
   "transcripts": {
     "074f91f8-ffe2-495e-9060-400bc7a6e0e8": {
       "mtimeMs": 1789978415768,
@@ -62,8 +62,20 @@
       "path": "/Users/chadcasper/.cursor/projects/Users-chadcasper-Documents-Computer-Vision-Sandbox-food-studio/agent-transcripts/e83068fb-670f-4475-9978-78bf7b875aa8/e83068fb-670f-4475-9978-78bf7b875aa8.jsonl"
     },
     "feeb6723-17ad-4a2a-b55c-a0859e715af8": {
-      "mtimeMs": 1790629304085,
+      "mtimeMs": 1790633212239,
       "path": "/Users/chadcasper/.cursor/projects/Users-chadcasper-Documents-Computer-Vision-Sandbox-food-studio/agent-transcripts/feeb6723-17ad-4a2a-b55c-a0859e715af8/feeb6723-17ad-4a2a-b55c-a0859e715af8.jsonl"
+    },
+    "1e0299fe-7ba8-485e-887f-deae76fbf898": {
+      "mtimeMs": 1791410090743,
+      "path": "/Users/chadcasper/.cursor/projects/Users-chadcasper-Documents-Computer-Vision-Sandbox-food-studio/agent-transcripts/1e0299fe-7ba8-485e-887f-deae76fbf898/1e0299fe-7ba8-485e-887f-deae76fbf898.jsonl"
+    },
+    "04c3a9bd-7ef8-4ebb-9434-2e3aefbc3757": {
+      "mtimeMs": 1791390825464,
+      "path": "/Users/chadcasper/.cursor/projects/Users-chadcasper-Documents-Computer-Vision-Sandbox-food-studio/agent-transcripts/04c3a9bd-7ef8-4ebb-9434-2e3aefbc3757/04c3a9bd-7ef8-4ebb-9434-2e3aefbc3757.jsonl"
+    },
+    "a646f130-6a42-4c6f-9075-e8c068917af5": {
+      "mtimeMs": 1791410281047,
+      "path": "/Users/chadcasper/.cursor/projects/Users-chadcasper-Documents-Computer-Vision-Sandbox-food-studio/agent-transcripts/a646f130-6a42-4c6f-9075-e8c068917af5/a646f130-6a42-4c6f-9075-e8c068917af5.jsonl"
     }
   },
   "version": 1

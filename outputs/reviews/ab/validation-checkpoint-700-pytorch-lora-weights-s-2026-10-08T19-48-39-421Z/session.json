@@ -1,0 +1,496 @@
+{
+  "version": 2,
+  "id": "validation-checkpoint-700-pytorch-lora-weights-s-2026-10-08T19-48-39-421Z",
+  "name": "Validation · checkpoint-700/pytorch_lora_weights.safetensors",
+  "createdAt": "2026-10-08T19:48:39.466Z",
+  "status": "active",
+  "criteria": [
+    "Style match",
+    "Prompt fidelity",
+    "Food presentation",
+    "Artifacts"
+  ],
+  "items": [
+    {
+      "id": "eval-01",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 101,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-01.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-01.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-01-seed-5101",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 5101,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-01-seed-5101.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-01-seed-5101.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-01-seed-6101",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 6101,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-01-seed-6101.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-01-seed-6101.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-01-seed-7101",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 7101,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-01-seed-7101.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-01-seed-7101.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-02",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 202,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-02.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-02.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-02-seed-5202",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 5202,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-02-seed-5202.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-02-seed-5202.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-02-seed-6202",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 6202,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-02-seed-6202.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-02-seed-6202.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-02-seed-7202",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 7202,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-02-seed-7202.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-02-seed-7202.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-03",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 303,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-03.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-03.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-03-seed-5303",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 5303,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-03-seed-5303.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-03-seed-5303.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-03-seed-6303",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 6303,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-03-seed-6303.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-03-seed-6303.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-03-seed-7303",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 7303,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-03-seed-7303.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-03-seed-7303.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-04",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 404,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-04.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-04.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-04-seed-5404",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 5404,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-04-seed-5404.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-04-seed-5404.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-04-seed-6404",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 6404,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-04-seed-6404.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-04-seed-6404.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-04-seed-7404",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 7404,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-04-seed-7404.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-04-seed-7404.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-05",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 505,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-05.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-05.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-05-seed-5505",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 5505,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-05-seed-5505.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-05-seed-5505.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-05-seed-6505",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 6505,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-05-seed-6505.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-05-seed-6505.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-05-seed-7505",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 7505,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-05-seed-7505.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-05-seed-7505.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-06",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 606,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-06.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-06.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-06-seed-5606",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 5606,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-06-seed-5606.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-06-seed-5606.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-06-seed-6606",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 6606,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-06-seed-6606.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-06-seed-6606.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-06-seed-7606",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 7606,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-06-seed-7606.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-06-seed-7606.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-07",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 707,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-07.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-07.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-07-seed-5707",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 5707,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-07-seed-5707.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-07-seed-5707.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-07-seed-6707",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 6707,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-07-seed-6707.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-07-seed-6707.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-07-seed-7707",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 7707,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-07-seed-7707.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-07-seed-7707.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-08",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 808,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-08.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-08.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-08-seed-5808",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 5808,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-08-seed-5808.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-08-seed-5808.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-08-seed-6808",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 6808,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/700/eval-08-seed-6808.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/base/eval-08-seed-6808.png"
+        }
+      ]
+    },
+    {
+      "id": "eval-08-seed-7808",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 7808,
+      "images": [
+        {
+          "letter": "A",
+          "image": "outputs/eval/base/eval-08-seed-7808.png"
+        },
+        {
+          "letter": "B",
+          "image": "outputs/eval/700/eval-08-seed-7808.png"
+        }
+      ]
+    }
+  ],
+  "responses": {}
+}

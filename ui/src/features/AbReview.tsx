@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Eye, FlaskConical, LockKeyhole, Plus, RefreshCw } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, Eye, FlaskConical, LockKeyhole, Plus, RefreshCw, X } from "lucide-react";
 import { api } from "../api";
 import { EmptyState, PageHeader, StatusMessage } from "../components/Shared";
 import type { AbResponse, AbReveal, AbSession, AbSessionSummary, CheckpointSelection, RunSummary } from "../types";
@@ -26,6 +26,9 @@ export function AbReview() {
   const [nameEdited, setNameEdited] = useState(false);
   const [state, setState] = useState<"loading" | "ready" | "saving" | "saved" | "error">("loading");
   const [message, setMessage] = useState("");
+  const [zoomIndex, setZoomIndex] = useState<number | null>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+  const closeZoomRef = useRef<HTMLButtonElement>(null);
 
   function loadIndex() {
     setState("loading");
@@ -45,6 +48,49 @@ export function AbReview() {
   useEffect(() => {
     if (active && item) setDraft(active.responses[item.id] ?? blankResponse(active.criteria));
   }, [active, item]);
+
+  useEffect(() => {
+    setZoomIndex(null);
+  }, [itemIndex, active?.id]);
+
+  const zoomed = zoomIndex !== null && Boolean(item?.images[zoomIndex]);
+  useEffect(() => {
+    const review = reviewRef.current;
+    if (!review || !zoomed) return;
+    const previous = document.activeElement;
+    review.inert = true;
+    closeZoomRef.current?.focus();
+    return () => {
+      review.inert = false;
+      if (previous instanceof HTMLElement) previous.focus();
+    };
+  }, [zoomed]);
+
+  useEffect(() => {
+    if (zoomIndex === null || !item) return;
+    const imageCount = item.images.length;
+    function onKey(event: KeyboardEvent) {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      const target = event.target;
+      if (
+        target instanceof HTMLInputElement
+        || target instanceof HTMLTextAreaElement
+        || target instanceof HTMLSelectElement
+      ) {
+        return;
+      }
+      if (!["ArrowLeft", "ArrowRight", "Escape"].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "Escape") {
+        setZoomIndex(null);
+        return;
+      }
+      const delta = event.key === "ArrowRight" ? 1 : -1;
+      setZoomIndex((index) => (index === null ? null : (index + delta + imageCount) % imageCount));
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [item, zoomIndex]);
 
   const completed = useMemo(() => Object.keys(active?.responses ?? {}).length, [active]);
   const isComplete = Boolean(active && completed === active.items.length);
@@ -209,6 +255,7 @@ export function AbReview() {
 
   return (
     <div className="workflow ab-workflow">
+      <div ref={reviewRef}>
       <PageHeader
         eyebrow="Evaluation · Blind comparison"
         title={active.name}
@@ -219,10 +266,12 @@ export function AbReview() {
       <div className="ab-prompt"><span>Prompt</span><p>{item.prompt}</p><em>Seed {item.seed}</em></div>
 
       <section className="ab-images">
-        {item.images.map((image) => (
+        {item.images.map((image, index) => (
           <figure key={image.letter}>
-            <div className="blind-label">{image.letter}</div>
-            <img src={image.url} alt={`Blind comparison ${image.letter}`} />
+            <button type="button" className="ab-zoom" onClick={() => setZoomIndex(index)} aria-label={`Enlarge image ${image.letter}`}>
+              <img src={image.url} alt={`Blind comparison ${image.letter}`} />
+              <span className="blind-label">{image.letter}</span>
+            </button>
           </figure>
         ))}
       </section>
@@ -284,6 +333,25 @@ export function AbReview() {
           </button>
         )}
       </div>
+      </div>
+
+      {zoomIndex !== null && item.images[zoomIndex] && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label={`Image ${item.images[zoomIndex].letter}`} onClick={() => setZoomIndex(null)}>
+          <button ref={closeZoomRef} className="lightbox-close" type="button" onClick={() => setZoomIndex(null)} aria-label="Close image"><X /></button>
+          <div className="lightbox-prompt" onClick={(event) => event.stopPropagation()}>
+            <p><span>Prompt</span>{item.prompt}</p>
+            <span>Seed {item.seed}</span>
+          </div>
+          <figure>
+            <img src={item.images[zoomIndex].url} alt={`Blind comparison ${item.images[zoomIndex].letter}`} />
+            <figcaption>
+              <strong>{item.images[zoomIndex].letter}</strong>
+              <span>{zoomIndex + 1} / {item.images.length}</span>
+              <span>Arrow keys to switch</span>
+            </figcaption>
+          </figure>
+        </div>
+      )}
     </div>
   );
 }

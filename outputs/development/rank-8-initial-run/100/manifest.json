@@ -1,18 +1,24 @@
 {
-  "created_utc": "2026-09-21T19:40:35.473931+00:00",
+  "created_utc": "2026-09-29T00:22:43.624995+00:00",
   "prompts_path": "/home/chadcasper/food-studio/data/development_prompts.json",
   "device": "cuda",
+  "gpu_name": "NVIDIA L4",
+  "runtime_seconds": 1745.952,
+  "generated_sample_count": 24,
+  "reused_sample_count": 8,
   "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
   "model_revision": "8c44a2fbef88fae175da65df054db0f901aa9747",
   "diffusers_revision": "80c7ed262aeffbeb43ef13ae04baeb9b84515a69",
   "adapter_path": "/home/chadcasper/food-studio/outputs/checkpoints/checkpoint-100",
   "adapter_scale": 1.0,
+  "adapter_sha256": "78060afea33ee1cef901ed37b661054eaa746f2add4e35d7617317afb514ff7a",
   "width": 768,
   "height": 768,
   "num_inference_steps": 50,
   "guidance_scale": 4.0,
   "scheduler": "FlowMatchEulerDiscreteScheduler",
   "precision": "bf16",
+  "cpu_offload": true,
   "max_sequence_length": 512,
   "text_encoder_out_layers": [
     10,
@@ -23,51 +29,291 @@
   "samples": [
     {
       "id": "dev-01",
+      "prompt_group_id": "dev-01",
       "prompt": "Sliced pan-seared duck breast with celeriac puree, charred radicchio, and sour cherry jus on a matte charcoal plate, close three-quarter view, directional window light, restrained dark restaurant table.",
       "seed": 1101,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-01.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-01.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-01-seed-2101",
+      "prompt_group_id": "dev-01",
+      "prompt": "Sliced pan-seared duck breast with celeriac puree, charred radicchio, and sour cherry jus on a matte charcoal plate, close three-quarter view, directional window light, restrained dark restaurant table.",
+      "seed": 2101,
+      "image": "outputs/development/rank-8-initial-run/100/dev-01-seed-2101.png",
+      "runtime_seconds": 95.449,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-01-seed-3101",
+      "prompt_group_id": "dev-01",
+      "prompt": "Sliced pan-seared duck breast with celeriac puree, charred radicchio, and sour cherry jus on a matte charcoal plate, close three-quarter view, directional window light, restrained dark restaurant table.",
+      "seed": 3101,
+      "image": "outputs/development/rank-8-initial-run/100/dev-01-seed-3101.png",
+      "runtime_seconds": 73.414,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-01-seed-4101",
+      "prompt_group_id": "dev-01",
+      "prompt": "Sliced pan-seared duck breast with celeriac puree, charred radicchio, and sour cherry jus on a matte charcoal plate, close three-quarter view, directional window light, restrained dark restaurant table.",
+      "seed": 4101,
+      "image": "outputs/development/rank-8-initial-run/100/dev-01-seed-4101.png",
+      "runtime_seconds": 72.867,
+      "reused_existing": false
     },
     {
       "id": "dev-02",
+      "prompt_group_id": "dev-02",
       "prompt": "A roasted cauliflower steak with tahini, toasted almonds, pomegranate seeds, and parsley on a neutral ceramic plate, three-quarter view, soft side light, minimal tabletop props.",
       "seed": 1202,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-02.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-02.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-02-seed-2202",
+      "prompt_group_id": "dev-02",
+      "prompt": "A roasted cauliflower steak with tahini, toasted almonds, pomegranate seeds, and parsley on a neutral ceramic plate, three-quarter view, soft side light, minimal tabletop props.",
+      "seed": 2202,
+      "image": "outputs/development/rank-8-initial-run/100/dev-02-seed-2202.png",
+      "runtime_seconds": 71.995,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-02-seed-3202",
+      "prompt_group_id": "dev-02",
+      "prompt": "A roasted cauliflower steak with tahini, toasted almonds, pomegranate seeds, and parsley on a neutral ceramic plate, three-quarter view, soft side light, minimal tabletop props.",
+      "seed": 3202,
+      "image": "outputs/development/rank-8-initial-run/100/dev-02-seed-3202.png",
+      "runtime_seconds": 71.995,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-02-seed-4202",
+      "prompt_group_id": "dev-02",
+      "prompt": "A roasted cauliflower steak with tahini, toasted almonds, pomegranate seeds, and parsley on a neutral ceramic plate, three-quarter view, soft side light, minimal tabletop props.",
+      "seed": 4202,
+      "image": "outputs/development/rank-8-initial-run/100/dev-02-seed-4202.png",
+      "runtime_seconds": 71.833,
+      "reused_existing": false
     },
     {
       "id": "dev-03",
+      "prompt_group_id": "dev-03",
       "prompt": "A vanilla-poached pear with a mascarpone quenelle, hazelnut crumble, and a small pool of caramel on a cream stoneware plate, close side view, warm directional restaurant light.",
       "seed": 1303,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-03.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-03.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-03-seed-2303",
+      "prompt_group_id": "dev-03",
+      "prompt": "A vanilla-poached pear with a mascarpone quenelle, hazelnut crumble, and a small pool of caramel on a cream stoneware plate, close side view, warm directional restaurant light.",
+      "seed": 2303,
+      "image": "outputs/development/rank-8-initial-run/100/dev-03-seed-2303.png",
+      "runtime_seconds": 71.717,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-03-seed-3303",
+      "prompt_group_id": "dev-03",
+      "prompt": "A vanilla-poached pear with a mascarpone quenelle, hazelnut crumble, and a small pool of caramel on a cream stoneware plate, close side view, warm directional restaurant light.",
+      "seed": 3303,
+      "image": "outputs/development/rank-8-initial-run/100/dev-03-seed-3303.png",
+      "runtime_seconds": 71.59,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-03-seed-4303",
+      "prompt_group_id": "dev-03",
+      "prompt": "A vanilla-poached pear with a mascarpone quenelle, hazelnut crumble, and a small pool of caramel on a cream stoneware plate, close side view, warm directional restaurant light.",
+      "seed": 4303,
+      "image": "outputs/development/rank-8-initial-run/100/dev-03-seed-4303.png",
+      "runtime_seconds": 71.619,
+      "reused_existing": false
     },
     {
       "id": "dev-04",
+      "prompt_group_id": "dev-04",
       "prompt": "A tall glass of iced matcha tonic with lime peel and clear ice, standing on a pale stone bar, three-quarter product view, clean natural side light and an uncluttered background.",
       "seed": 1404,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-04.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-04.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-04-seed-2404",
+      "prompt_group_id": "dev-04",
+      "prompt": "A tall glass of iced matcha tonic with lime peel and clear ice, standing on a pale stone bar, three-quarter product view, clean natural side light and an uncluttered background.",
+      "seed": 2404,
+      "image": "outputs/development/rank-8-initial-run/100/dev-04-seed-2404.png",
+      "runtime_seconds": 71.559,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-04-seed-3404",
+      "prompt_group_id": "dev-04",
+      "prompt": "A tall glass of iced matcha tonic with lime peel and clear ice, standing on a pale stone bar, three-quarter product view, clean natural side light and an uncluttered background.",
+      "seed": 3404,
+      "image": "outputs/development/rank-8-initial-run/100/dev-04-seed-3404.png",
+      "runtime_seconds": 71.391,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-04-seed-4404",
+      "prompt_group_id": "dev-04",
+      "prompt": "A tall glass of iced matcha tonic with lime peel and clear ice, standing on a pale stone bar, three-quarter product view, clean natural side light and an uncluttered background.",
+      "seed": 4404,
+      "image": "outputs/development/rank-8-initial-run/100/dev-04-seed-4404.png",
+      "runtime_seconds": 71.27,
+      "reused_existing": false
     },
     {
       "id": "dev-05",
+      "prompt_group_id": "dev-05",
       "prompt": "Handmade spinach and ricotta ravioli with brown butter, sage leaves, and grated parmesan in a wide shallow bowl, photographed directly overhead on a dark wood table.",
       "seed": 1505,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-05.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-05.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-05-seed-2505",
+      "prompt_group_id": "dev-05",
+      "prompt": "Handmade spinach and ricotta ravioli with brown butter, sage leaves, and grated parmesan in a wide shallow bowl, photographed directly overhead on a dark wood table.",
+      "seed": 2505,
+      "image": "outputs/development/rank-8-initial-run/100/dev-05-seed-2505.png",
+      "runtime_seconds": 71.236,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-05-seed-3505",
+      "prompt_group_id": "dev-05",
+      "prompt": "Handmade spinach and ricotta ravioli with brown butter, sage leaves, and grated parmesan in a wide shallow bowl, photographed directly overhead on a dark wood table.",
+      "seed": 3505,
+      "image": "outputs/development/rank-8-initial-run/100/dev-05-seed-3505.png",
+      "runtime_seconds": 71.163,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-05-seed-4505",
+      "prompt_group_id": "dev-05",
+      "prompt": "Handmade spinach and ricotta ravioli with brown butter, sage leaves, and grated parmesan in a wide shallow bowl, photographed directly overhead on a dark wood table.",
+      "seed": 4505,
+      "image": "outputs/development/rank-8-initial-run/100/dev-05-seed-4505.png",
+      "runtime_seconds": 71.285,
+      "reused_existing": false
     },
     {
       "id": "dev-06",
+      "prompt_group_id": "dev-06",
       "prompt": "A short stack of buttermilk pancakes with roasted peaches, whipped mascarpone, and maple syrup on a warm ceramic plate, close three-quarter view on a simple linen-covered breakfast table.",
       "seed": 1606,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-06.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-06.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-06-seed-2606",
+      "prompt_group_id": "dev-06",
+      "prompt": "A short stack of buttermilk pancakes with roasted peaches, whipped mascarpone, and maple syrup on a warm ceramic plate, close three-quarter view on a simple linen-covered breakfast table.",
+      "seed": 2606,
+      "image": "outputs/development/rank-8-initial-run/100/dev-06-seed-2606.png",
+      "runtime_seconds": 71.25,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-06-seed-3606",
+      "prompt_group_id": "dev-06",
+      "prompt": "A short stack of buttermilk pancakes with roasted peaches, whipped mascarpone, and maple syrup on a warm ceramic plate, close three-quarter view on a simple linen-covered breakfast table.",
+      "seed": 3606,
+      "image": "outputs/development/rank-8-initial-run/100/dev-06-seed-3606.png",
+      "runtime_seconds": 71.062,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-06-seed-4606",
+      "prompt_group_id": "dev-06",
+      "prompt": "A short stack of buttermilk pancakes with roasted peaches, whipped mascarpone, and maple syrup on a warm ceramic plate, close three-quarter view on a simple linen-covered breakfast table.",
+      "seed": 4606,
+      "image": "outputs/development/rank-8-initial-run/100/dev-06-seed-4606.png",
+      "runtime_seconds": 71.084,
+      "reused_existing": false
     },
     {
       "id": "dev-07",
+      "prompt_group_id": "dev-07",
       "prompt": "Seared scallops with sweet corn puree, charred corn kernels, and herb oil on a matte white plate, low three-quarter angle, controlled side light, restrained restaurant setting.",
       "seed": 1707,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-07.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-07.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-07-seed-2707",
+      "prompt_group_id": "dev-07",
+      "prompt": "Seared scallops with sweet corn puree, charred corn kernels, and herb oil on a matte white plate, low three-quarter angle, controlled side light, restrained restaurant setting.",
+      "seed": 2707,
+      "image": "outputs/development/rank-8-initial-run/100/dev-07-seed-2707.png",
+      "runtime_seconds": 71.086,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-07-seed-3707",
+      "prompt_group_id": "dev-07",
+      "prompt": "Seared scallops with sweet corn puree, charred corn kernels, and herb oil on a matte white plate, low three-quarter angle, controlled side light, restrained restaurant setting.",
+      "seed": 3707,
+      "image": "outputs/development/rank-8-initial-run/100/dev-07-seed-3707.png",
+      "runtime_seconds": 71.003,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-07-seed-4707",
+      "prompt_group_id": "dev-07",
+      "prompt": "Seared scallops with sweet corn puree, charred corn kernels, and herb oil on a matte white plate, low three-quarter angle, controlled side light, restrained restaurant setting.",
+      "seed": 4707,
+      "image": "outputs/development/rank-8-initial-run/100/dev-07-seed-4707.png",
+      "runtime_seconds": 70.992,
+      "reused_existing": false
     },
     {
       "id": "dev-08",
+      "prompt_group_id": "dev-08",
       "prompt": "Pappardelle with wild mushrooms, browned butter, parmesan, and fresh thyme in a dark shallow bowl, close three-quarter view, directional ambient light on a neutral tabletop.",
       "seed": 1808,
-      "image": "/home/chadcasper/food-studio/outputs/development/rank-8-initial-run/100/dev-08.png"
+      "image": "outputs/development/rank-8-initial-run/100/dev-08.png",
+      "runtime_seconds": null,
+      "reused_existing": true
+    },
+    {
+      "id": "dev-08-seed-2808",
+      "prompt_group_id": "dev-08",
+      "prompt": "Pappardelle with wild mushrooms, browned butter, parmesan, and fresh thyme in a dark shallow bowl, close three-quarter view, directional ambient light on a neutral tabletop.",
+      "seed": 2808,
+      "image": "outputs/development/rank-8-initial-run/100/dev-08-seed-2808.png",
+      "runtime_seconds": 70.941,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-08-seed-3808",
+      "prompt_group_id": "dev-08",
+      "prompt": "Pappardelle with wild mushrooms, browned butter, parmesan, and fresh thyme in a dark shallow bowl, close three-quarter view, directional ambient light on a neutral tabletop.",
+      "seed": 3808,
+      "image": "outputs/development/rank-8-initial-run/100/dev-08-seed-3808.png",
+      "runtime_seconds": 70.88,
+      "reused_existing": false
+    },
+    {
+      "id": "dev-08-seed-4808",
+      "prompt_group_id": "dev-08",
+      "prompt": "Pappardelle with wild mushrooms, browned butter, parmesan, and fresh thyme in a dark shallow bowl, close three-quarter view, directional ambient light on a neutral tabletop.",
+      "seed": 4808,
+      "image": "outputs/development/rank-8-initial-run/100/dev-08-seed-4808.png",
+      "runtime_seconds": 70.881,
+      "reused_existing": false
     }
   ]
 }

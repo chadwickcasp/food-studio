@@ -1,0 +1,46 @@
+{
+  "runs": [
+    {
+      "id": "outputs/eval/base/manifest.json",
+      "label": "base"
+    },
+    {
+      "id": "outputs/eval/700/manifest.json",
+      "label": "checkpoint-700/pytorch_lora_weights.safetensors"
+    }
+  ],
+  "assignments": {
+    "eval-01": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-02": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-03": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-04": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-05": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-06": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-07": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-08": {
+      "A": 1,
+      "B": 0
+    }
+  }
+}

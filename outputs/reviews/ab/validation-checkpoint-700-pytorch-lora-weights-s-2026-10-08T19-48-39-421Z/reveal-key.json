@@ -1,0 +1,142 @@
+{
+  "runs": [
+    {
+      "id": "outputs/eval/base/manifest.json",
+      "label": "base"
+    },
+    {
+      "id": "outputs/eval/700/manifest.json",
+      "label": "checkpoint-700/pytorch_lora_weights.safetensors"
+    }
+  ],
+  "assignments": {
+    "eval-01": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-01-seed-5101": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-01-seed-6101": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-01-seed-7101": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-02": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-02-seed-5202": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-02-seed-6202": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-02-seed-7202": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-03": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-03-seed-5303": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-03-seed-6303": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-03-seed-7303": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-04": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-04-seed-5404": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-04-seed-6404": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-04-seed-7404": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-05": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-05-seed-5505": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-05-seed-6505": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-05-seed-7505": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-06": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-06-seed-5606": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-06-seed-6606": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-06-seed-7606": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-07": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-07-seed-5707": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-07-seed-6707": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-07-seed-7707": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-08": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-08-seed-5808": {
+      "A": 0,
+      "B": 1
+    },
+    "eval-08-seed-6808": {
+      "A": 1,
+      "B": 0
+    },
+    "eval-08-seed-7808": {
+      "A": 0,
+      "B": 1
+    }
+  }
+}

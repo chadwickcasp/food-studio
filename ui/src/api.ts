@@ -47,5 +47,5 @@ export const api = {
     promptChoices: Record<string, string>;
     notes: string;
   }) =>
-    request("/api/checkpoints/selection", { method: "PUT", body: JSON.stringify(value) }),
+    request<CheckpointSelection>("/api/checkpoints/selection", { method: "PUT", body: JSON.stringify(value) }),
 };

@@ -117,7 +117,7 @@ The official [Diffusers FLUX.2 training guide](https://github.com/huggingface/di
 
 ### Before training
 
-1. Keep separate development and validation sets. Use eight development prompts with four fixed seeds each only for checkpoint selection, and eight held-out validation prompts with one fixed seed each only for the final comparison.
+1. Keep separate development and validation sets. Use eight development prompts with four fixed seeds each only for checkpoint selection, and eight held-out validation prompts with four fixed seeds each only for the final comparison.
 2. Give each prompt a stable ID and its pre-registered seed or seeds in `data/development_prompts.json` or `data/validation_prompts.json`.
 3. Also fix and record the model revision, image dimensions, inference steps, guidance value, scheduler, and other generation settings.
 4. Run `src/inference.py` without an adapter and save the results to `outputs/samples/baseline/`.

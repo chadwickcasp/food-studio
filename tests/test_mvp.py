@@ -142,10 +142,31 @@ def test_load_config_rejects_bad_resolution(tmp_path: Path) -> None:
 
 def test_validation_prompts_file() -> None:
     prompts = load_validation_prompts(Path("data/validation_prompts.json"))
-    assert len(prompts) == 8
+    assert len(prompts) == 32
     assert prompts[0].prompt_id == "eval-01"
     assert prompts[0].prompt_group_id == "eval-01"
-    assert len({item.seed for item in prompts}) == 8
+    assert prompts[0].seed == 101
+    assert [item.prompt_id for item in prompts[::4]] == [f"eval-{index:02d}" for index in range(1, 9)]
+    first_seed = {
+        item.prompt_group_id: item.seed
+        for item in prompts
+        if item.prompt_id == item.prompt_group_id
+    }
+    assert first_seed == {
+        "eval-01": 101,
+        "eval-02": 202,
+        "eval-03": 303,
+        "eval-04": 404,
+        "eval-05": 505,
+        "eval-06": 606,
+        "eval-07": 707,
+        "eval-08": 808,
+    }
+    assert all(
+        len([item for item in prompts if item.prompt_group_id == f"eval-{index:02d}"]) == 4
+        for index in range(1, 9)
+    )
+    assert len({item.seed for item in prompts}) == 32
 
 
 def test_development_prompts_are_separate_and_complete() -> None:
@@ -162,6 +183,7 @@ def test_development_prompts_are_separate_and_complete() -> None:
         item.prompt_group_id for item in validation
     )
     assert {item.prompt for item in development}.isdisjoint(item.prompt for item in validation)
+    assert {item.seed for item in development}.isdisjoint(item.seed for item in validation)
 
 
 def test_multi_seed_prompt_preserves_first_sample_id(tmp_path: Path) -> None:

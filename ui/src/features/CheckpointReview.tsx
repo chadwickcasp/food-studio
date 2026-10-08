@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, ChevronLeft, ChevronRight, Images, Maximize2, RefreshCw, X } from "lucide-react";
 import { api } from "../api";
 import { EmptyState, PageHeader, StatusMessage } from "../components/Shared";
-import type { CheckpointExperiment, CheckpointPrompt } from "../types";
+import type { CheckpointExperiment, CheckpointPrompt, CheckpointSelection } from "../types";
 
 interface SeedSample {
   id: string;
@@ -21,8 +21,19 @@ interface ZoomTarget {
   seedIndex: number;
 }
 
+interface AppliedReview {
+  step: string;
+  promptChoices: Record<string, string>;
+  notes: string;
+  selectedAt: string;
+}
+
 function stepName(step: string) {
   return step === "base" ? "Base" : `Step ${step}`;
+}
+
+function experimentSteps(experiment: CheckpointExperiment) {
+  return experiment.steps.map(String);
 }
 
 function groupPrompts(prompts: CheckpointPrompt[]): PromptGroup[] {
@@ -41,31 +52,149 @@ function groupPrompts(prompts: CheckpointPrompt[]): PromptGroup[] {
   return groups;
 }
 
+function formatSavedAt(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+}
+
+function reviewStateForExperiment(
+  experiment: CheckpointExperiment,
+  selection: CheckpointSelection | null,
+): AppliedReview | null {
+  if (!selection || selection.experimentId !== experiment.id) return null;
+  const steps = new Set(experimentSteps(experiment));
+  if (!steps.has(String(selection.selectedStep))) return null;
+  const promptChoices: Record<string, string> = {};
+  for (const [id, step] of Object.entries(selection.promptChoices ?? {})) {
+    if (steps.has(String(step))) promptChoices[id] = String(step);
+  }
+  return {
+    step: String(selection.selectedStep),
+    promptChoices,
+    notes: selection.notes ?? "",
+    selectedAt: selection.selectedAt,
+  };
+}
+
+function errorText(error: unknown, fallback: string) {
+  return error instanceof Error ? error.message : fallback;
+}
+
+function unavailableReviewMessage(experiments: CheckpointExperiment[], selection: CheckpointSelection | null) {
+  if (!selection?.selectedStep) return null;
+  const match = experiments.find((item) => item.id === selection.experimentId);
+  if (!match) {
+    return `A saved review for ${selection.experimentId} is not in this list.`;
+  }
+  if (!experimentSteps(match).includes(String(selection.selectedStep))) {
+    const name = match.name ?? match.id;
+    return `The saved review for ${name} uses step ${selection.selectedStep}, which is no longer in that experiment.`;
+  }
+  return null;
+}
+
+function ExperimentChooser({
+  experiments,
+  selection,
+  selectionMessage,
+  onCompare,
+  onOpenReview,
+}: {
+  experiments: CheckpointExperiment[];
+  selection: CheckpointSelection | null;
+  selectionMessage: string;
+  onCompare: (index: number) => void;
+  onOpenReview: (index: number) => void;
+}) {
+  const unavailable = unavailableReviewMessage(experiments, selection);
+  return (
+    <div className="workflow checkpoint-workflow">
+      <PageHeader
+        eyebrow="Training · Checkpoint selection"
+        title="Choose an experiment"
+        description="Pick a development run to compare checkpoints. A saved review stays closed until you open it."
+      />
+      {selectionMessage && <p className="chooser-note">{selectionMessage}</p>}
+      {unavailable && <p className="chooser-note">{unavailable}</p>}
+      <div className="experiment-list">
+        {experiments.map((experiment, index) => {
+          const review = reviewStateForExperiment(experiment, selection);
+          const promptCount = groupPrompts(experiment.prompts).length;
+          return (
+            <article className="experiment-card" key={experiment.id}>
+              <div>
+                <h2>{experiment.name ?? experiment.id}</h2>
+                <p className="experiment-meta">{promptCount} prompts · {experiment.steps.length} steps</p>
+              </div>
+              {review && <p>Saved review: step {review.step} · {formatSavedAt(review.selectedAt)}</p>}
+              <div className="experiment-actions">
+                {review && (
+                  <button className="primary-button" type="button" onClick={() => onOpenReview(index)}>Open saved review</button>
+                )}
+                <button className={review ? "secondary-button" : "primary-button"} type="button" onClick={() => onCompare(index)}>
+                  Compare checkpoints
+                </button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function CheckpointReview() {
   const [experiments, setExperiments] = useState<CheckpointExperiment[]>([]);
-  const [experimentIndex, setExperimentIndex] = useState(0);
+  const [savedSelection, setSavedSelection] = useState<CheckpointSelection | null>(null);
+  const [experimentIndex, setExperimentIndex] = useState<number | null>(null);
   const [promptIndex, setPromptIndex] = useState(0);
   const [selectedStep, setSelectedStep] = useState("");
   const [promptChoices, setPromptChoices] = useState<Record<string, string>>({});
   const [notes, setNotes] = useState("");
+  const [reviewVisible, setReviewVisible] = useState(false);
+  const [pinnedStep, setPinnedStep] = useState<string | null>(null);
   const [zoom, setZoom] = useState<ZoomTarget | null>(null);
   const [included, setIncluded] = useState<string[] | null>(null);
   const [state, setState] = useState<"loading" | "ready" | "saving" | "saved" | "error">("loading");
   const [message, setMessage] = useState("");
+  const [selectionMessage, setSelectionMessage] = useState("");
+  const saveRequest = useRef(0);
+  const savingRef = useRef(false);
+  const viewedExperimentId = useRef<string | null>(null);
 
   function load() {
     setState("loading");
-    api.checkpoints()
-      .then(({ experiments: found }) => { setExperiments(found); setState("ready"); })
-      .catch((error) => { setMessage(error.message); setState("error"); });
+    setMessage("");
+    Promise.allSettled([api.checkpoints(), api.checkpointSelection()]).then(([experimentsResult, selectionResult]) => {
+      if (experimentsResult.status === "rejected") {
+        setExperiments([]);
+        setSavedSelection(null);
+        setSelectionMessage("");
+        setMessage(errorText(experimentsResult.reason, "Could not load development renders."));
+        setState("error");
+        return;
+      }
+      setExperiments(experimentsResult.value.experiments);
+      if (selectionResult.status === "fulfilled") {
+        setSavedSelection(selectionResult.value.selection);
+        setSelectionMessage("");
+      } else {
+        setSavedSelection(null);
+        setSelectionMessage(errorText(selectionResult.reason, "Could not load the saved review."));
+      }
+      setState("ready");
+    });
   }
 
   useEffect(load, []);
 
-  const experiment = experiments[experimentIndex];
+  const experiment = experimentIndex === null ? undefined : experiments[experimentIndex];
+  viewedExperimentId.current = experiment?.id ?? null;
   const groups = useMemo(() => groupPrompts(experiment?.prompts ?? []), [experiment]);
   const group = groups[promptIndex];
-  const steps = useMemo(() => experiment?.steps.map(String) ?? [], [experiment]);
+  const steps = useMemo(() => experiment ? experimentSteps(experiment) : [], [experiment]);
+  const appliedReview = experiment ? reviewStateForExperiment(experiment, savedSelection) : null;
   const weights = useMemo(() => {
     if (experiment?.weights?.length) return experiment.weights;
     return steps.map((step) => ({
@@ -129,20 +258,92 @@ export function CheckpointReview() {
     });
   }, [zoom]);
 
+  useEffect(() => {
+    if (!pinnedStep || !experiment) return;
+    document.querySelector<HTMLElement>(`.checkpoint-tile[data-step="${pinnedStep}"]`)?.scrollIntoView({
+      inline: "center",
+      block: "nearest",
+    });
+    setPinnedStep(null);
+  }, [pinnedStep, experiment]);
+
+  function clearComparison() {
+    setPromptIndex(0);
+    setSelectedStep("");
+    setPromptChoices({});
+    setNotes("");
+    setReviewVisible(false);
+    setZoom(null);
+    setPinnedStep(null);
+    setMessage("");
+  }
+
+  function compareExperiment(index: number) {
+    if (savingRef.current) return;
+    setExperimentIndex(index);
+    clearComparison();
+    if (state !== "loading") setState("ready");
+  }
+
+  function openSavedReview(index: number) {
+    if (savingRef.current) return;
+    const next = experiments[index];
+    const review = next ? reviewStateForExperiment(next, savedSelection) : null;
+    if (!next || !review) return;
+    setExperimentIndex(index);
+    setPromptIndex(0);
+    setSelectedStep(review.step);
+    setPromptChoices(review.promptChoices);
+    setNotes(review.notes);
+    setReviewVisible(true);
+    setZoom(null);
+    setPinnedStep(review.step);
+    setIncluded(null);
+    setMessage("");
+    if (state !== "loading") setState("ready");
+  }
+
+  function leaveExperiment() {
+    if (savingRef.current) return;
+    setExperimentIndex(null);
+    setIncluded(null);
+    clearComparison();
+    if (state !== "loading") setState("ready");
+  }
+
   async function saveSelection() {
-    if (!experiment || !selectedStep) return;
+    if (!experiment || !selectedStep || savingRef.current) return;
+    const requestId = saveRequest.current + 1;
+    saveRequest.current = requestId;
+    const experimentId = experiment.id;
+    savingRef.current = true;
     setState("saving");
     try {
-      await api.saveCheckpoint({ experimentId: experiment.id, step: selectedStep, promptChoices, notes });
+      const saved = await api.saveCheckpoint({ experimentId, step: selectedStep, promptChoices, notes });
+      if (saveRequest.current !== requestId) return;
+      setSavedSelection(saved);
+      if (viewedExperimentId.current !== experimentId) {
+        setState("ready");
+        return;
+      }
+      setNotes(saved.notes);
+      setReviewVisible(true);
       setState("saved");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not save checkpoint selection.");
+      if (saveRequest.current !== requestId) return;
+      if (viewedExperimentId.current !== experimentId) {
+        setState("ready");
+        return;
+      }
+      setMessage(errorText(error, "Could not save checkpoint selection."));
       setState("error");
+    } finally {
+      if (saveRequest.current === requestId) savingRef.current = false;
     }
   }
 
   function markGroup(step: string) {
-    if (!group) return;
+    if (savingRef.current || !group) return;
     setPromptChoices((value) => {
       const next = { ...value };
       for (const seed of group.seeds) next[seed.id] = step;
@@ -151,10 +352,10 @@ export function CheckpointReview() {
   }
 
   if (state === "loading") return <StatusMessage kind="loading">Loading development renders…</StatusMessage>;
-  if (state === "error" && !experiment) {
+  if (state === "error" && experiments.length === 0) {
     return (
       <div className="workflow">
-        <PageHeader eyebrow="Training · Checkpoint selection" title="Find the stopping point" description="Compare each prompt’s seeds at every saved checkpoint." />
+        <PageHeader eyebrow="Training · Checkpoint selection" title="Choose an experiment" description="Pick a development run to compare checkpoints." />
         <EmptyState
           icon={<Images size={26} />}
           title="Could not load development renders"
@@ -165,10 +366,10 @@ export function CheckpointReview() {
       </div>
     );
   }
-  if (!experiment || !group) {
+  if (experiments.length === 0) {
     return (
       <div className="workflow">
-        <PageHeader eyebrow="Training · Checkpoint selection" title="Find the stopping point" description="Compare each prompt’s seeds at every saved checkpoint." />
+        <PageHeader eyebrow="Training · Checkpoint selection" title="Choose an experiment" description="Pick a development run to compare checkpoints." />
         <EmptyState
           icon={<Images size={26} />}
           title="No checkpoint comparison yet"
@@ -179,7 +380,19 @@ export function CheckpointReview() {
       </div>
     );
   }
+  if (!experiment || !group) {
+    return (
+      <ExperimentChooser
+        experiments={experiments}
+        selection={savedSelection}
+        selectionMessage={selectionMessage}
+        onCompare={compareExperiment}
+        onOpenReview={openSavedReview}
+      />
+    );
+  }
 
+  const saving = state === "saving";
   const zoomSeed = zoom ? group.seeds[zoom.seedIndex] : undefined;
   const zoomSrc = zoom && zoomSeed ? zoomSeed.samples[zoom.step] : undefined;
 
@@ -189,12 +402,17 @@ export function CheckpointReview() {
         eyebrow="Training · Checkpoint selection"
         title="Find the stopping point"
         description="Each checkpoint shows that prompt’s seeds together. Mark the best step for the prompt, then lock one stopping point. The held-out A/B test stays closed until that choice is saved."
-        actions={experiments.length > 1 ? (
-          <select className="select-control" value={experimentIndex} onChange={(event) => { setExperimentIndex(Number(event.target.value)); setPromptIndex(0); setSelectedStep(""); }}>
-            {experiments.map((item, index) => <option value={index} key={item.id}>{item.name ?? item.id}</option>)}
-          </select>
-        ) : <div className="progress-chip">{promptIndex + 1} / {groups.length} prompts</div>}
       />
+
+      <div className="comparison-toolbar">
+        <div>
+          <button className="secondary-button" type="button" onClick={leaveExperiment} disabled={saving}>Experiments</button>
+          {appliedReview && (
+            <button className="secondary-button" type="button" onClick={() => openSavedReview(experimentIndex ?? 0)} disabled={saving}>Open saved review</button>
+          )}
+        </div>
+        <div className="progress-chip">{promptIndex + 1} / {groups.length} prompts</div>
+      </div>
 
       <section className="checkpoint-layout">
         <aside className="prompt-rail">
@@ -203,7 +421,7 @@ export function CheckpointReview() {
             const thumbnail = item.seeds.map((seed) => seed.samples[visibleSteps[0] ?? steps[0]]).find(Boolean);
             const marked = item.seeds.every((seed) => promptChoices[seed.id]);
             return (
-              <button type="button" key={item.id} className={index === promptIndex ? "prompt-card active" : "prompt-card"} onClick={() => setPromptIndex(index)}>
+              <button type="button" key={item.id} className={index === promptIndex ? "prompt-card active" : "prompt-card"} onClick={() => setPromptIndex(index)} disabled={saving}>
                 {thumbnail ? <img src={thumbnail} alt="" /> : <span className="prompt-placeholder" />}
                 <span><strong>{item.id}</strong><span>{item.prompt}</span></span>
                 {marked && <Check size={13} className="prompt-check" />}
@@ -231,6 +449,7 @@ export function CheckpointReview() {
                     <input
                       type="checkbox"
                       checked={visibleSteps.includes(weight.step)}
+                      disabled={saving}
                       onChange={() => setIncluded((current) => {
                         const selected = current ?? weights.map((item) => item.step);
                         return selected.includes(weight.step)
@@ -266,7 +485,7 @@ export function CheckpointReview() {
                   </div>
                   <div className="tile-meta">
                     <span className="step-label">{step === "base" ? "Base" : `Step ${step}`}</span>
-                    <button type="button" className={chosen ? "mark-best active" : "mark-best"} disabled={!ready} onClick={() => markGroup(step)}>
+                    <button type="button" className={chosen ? "mark-best active" : "mark-best"} disabled={!ready || saving} onClick={() => markGroup(step)}>
                       {chosen ? <><Check size={13} /> Best here</> : "Mark best"}
                     </button>
                   </div>
@@ -280,17 +499,20 @@ export function CheckpointReview() {
               <span>Overall stopping point</span>
               <div className="step-selector">
                 {steps.map((step) => (
-                  <button type="button" key={step} className={selectedStep === step ? "active" : ""} onClick={() => setSelectedStep(step)}>{step}</button>
+                  <button type="button" key={step} className={selectedStep === step ? "active" : ""} onClick={() => setSelectedStep(step)} disabled={saving}>{step}</button>
                 ))}
               </div>
             </div>
-            <textarea value={notes} onChange={(event) => setNotes(event.target.value)} rows={2} placeholder="Selection notes: where quality peaks, where overfitting begins…" />
+            {reviewVisible && appliedReview && (
+              <p className="saved-review-line">Saved stopping point: step {appliedReview.step} · {formatSavedAt(appliedReview.selectedAt)}</p>
+            )}
+            <textarea className="checkpoint-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={saving} placeholder="Selection notes: where quality peaks, where overfitting begins…" />
             {state === "error" && <StatusMessage kind="error">{message}</StatusMessage>}
             {state === "saved" && <StatusMessage kind="saved">Checkpoint decision saved.</StatusMessage>}
             <div className="decision-actions">
-              <button className="secondary-button" type="button" disabled={promptIndex === 0} onClick={() => setPromptIndex(promptIndex - 1)}><ChevronLeft size={16} /> Previous prompt</button>
+              <button className="secondary-button" type="button" disabled={promptIndex === 0 || saving} onClick={() => setPromptIndex(promptIndex - 1)}><ChevronLeft size={16} /> Previous prompt</button>
               {promptIndex < groups.length - 1 ? (
-                <button className="secondary-button" type="button" onClick={() => setPromptIndex(promptIndex + 1)}>Next prompt <ChevronRight size={16} /></button>
+                <button className="secondary-button" type="button" disabled={saving} onClick={() => setPromptIndex(promptIndex + 1)}>Next prompt <ChevronRight size={16} /></button>
               ) : (
                 <button
                   className="primary-button"

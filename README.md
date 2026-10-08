@@ -73,6 +73,8 @@ If Compute Engine preempts the Spot VM, or a host error stops it, before that jo
 
 Watch the log with `scripts/gcp.sh watch`, or `scripts/gcp.sh ssh` and `tail -f ~/food-studio/outputs/train.log`. Cloud Console shows **STOPPED** when the job has exited. Then `scripts/gcp.sh start`, `scripts/gcp.sh pull`, and `scripts/gcp.sh stop` (or run inference on the VM before stopping again).
 
+After a checkpoint is saved in the review app, render the held-out eval prompts on the L4 with `scripts/gcp.sh eval`. The step defaults to `selectedStep` in `outputs/reviews/checkpoint-selection.json`; pass `--step` to choose another one. The command uses the checkpoint already on the VM, renders `data/validation_prompts.json` for Base and that checkpoint, and stays attached until the VM stops. A host preemption starts the instance again and continues the unfinished samples. `--force` renders every sample again on the first launch. A restart keeps images whose manifest still matches. Then `scripts/gcp.sh start`, `scripts/gcp.sh pull`, and `scripts/gcp.sh stop`.
+
 `python -m src.train` over SSH does **not** stop the VM; use that only when you want the node to stay up. After a host stop the boot disk remains. `scripts/gcp.sh train --resume latest` starts the VM if needed and resumes.
 
 If 24 GB is still too small, enable `training.use_8bit_adam` (install `bitsandbytes`), confirm CPU offload and latent caching, then drop `training.resolution` to 512. Do not add distributed training or a different model for this MVP.
@@ -97,7 +99,23 @@ scripts/gcp.sh g4 stop
 scripts/gcp.sh g4 start  # for a later session
 ```
 
-`sync-inference` copies only `src/`, `config.yaml`, `requirements.txt`, and the two prompt JSON files. It skips training images, generated outputs, and weights. `push-lora` copies just one local adapter; pass a checkpoint directory such as `outputs/checkpoints/checkpoint-500` to try a different one. The base model downloads from Hugging Face on first use and remains cached on the G4 boot disk across VM stops and starts. Use `scripts/gcp.sh g4 pull` to retrieve renders. The G4 profile leaves `config.yaml` unchanged, including `inference.cpu_offload: true`; test no-offload as a separately recorded comparison if desired. Set `GCP_ZONE` if Spot capacity is unavailable in `us-central1-b`.
+`sync-inference` copies only `src/`, `config.yaml`, `requirements.txt`, the two prompt JSON files, and `scripts/develop_then_stop.sh`. It skips training images, generated outputs, and weights. `push-lora` copies just one local adapter; pass a checkpoint directory such as `outputs/checkpoints/checkpoint-500` to try a different one. The base model downloads from Hugging Face on first use and remains cached on the G4 boot disk across VM stops and starts. Use `scripts/gcp.sh g4 pull` to retrieve renders. The G4 profile leaves `config.yaml` unchanged, including `inference.cpu_offload: true`; test no-offload as a separately recorded comparison if desired. Set `GCP_ZONE` if Spot capacity is unavailable in `us-central1-b`.
+
+After the one-time login and `pip install`, render the current development prompts for Base and every configured checkpoint with:
+
+```bash
+scripts/gcp.sh g4 develop
+```
+
+The command reads `training.checkpoint_steps` and `training.max_train_steps` from `config.yaml` and uploads each local `outputs/checkpoints/checkpoint-<step>/pytorch_lora_weights.safetensors`. It refuses to start the VM when one of those files is missing, so pull the training checkpoints onto this machine first. On the VM it syncs the inference files, detaches `python -m src.development`, and stops the instance when the render exits. A host preemption starts the VM again and continues; an image is kept when its manifest still matches the prompt, seed, settings, and adapter. Pass `--force` to render every sample again on the first launch. A host restart keeps images whose manifest still matches. Pass `--name <run-name>` for a later fine-tune so its review manifest stays separate from the default `Rank-8 initial run`. The name starts with a letter or number and may also contain dots, underscores, and hyphens.
+
+The same command works on the L4 profile without the `g4` selector. It uploads the local checkpoint files, including over weights already on that VM. Ctrl-C leaves the VM as it is; the remote script still stops the VM when the render exits. Then retrieve the images:
+
+```bash
+scripts/gcp.sh g4 start
+scripts/gcp.sh g4 pull
+scripts/gcp.sh g4 stop
+```
 
 ## Licensing
 

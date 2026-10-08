@@ -1,44 +1,44 @@
 {
-  "description": "Held-out evaluation prompts. Frozen generation settings live in config.yaml and are copied into each sample manifest.",
+  "description": "Held-out evaluation prompts. Each prompt has four fixed seeds. The first seed is the original registered seed so existing renders stay matched. Frozen generation settings live in config.yaml and are copied into each sample manifest.",
   "prompts": [
     {
       "id": "eval-01",
-      "seed": 101,
+      "seeds": [101, 5101, 6101, 7101],
       "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter."
     },
     {
       "id": "eval-02",
-      "seed": 202,
+      "seeds": [202, 5202, 6202, 7202],
       "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background."
     },
     {
       "id": "eval-03",
-      "seed": 303,
+      "seeds": [303, 5303, 6303, 7303],
       "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting."
     },
     {
       "id": "eval-04",
-      "seed": 404,
+      "seeds": [404, 5404, 6404, 7404],
       "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view."
     },
     {
       "id": "eval-05",
-      "seed": 505,
+      "seeds": [505, 5505, 6505, 7505],
       "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table."
     },
     {
       "id": "eval-06",
-      "seed": 606,
+      "seeds": [606, 5606, 6606, 7606],
       "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin."
     },
     {
       "id": "eval-07",
-      "seed": 707,
+      "seeds": [707, 5707, 6707, 7707],
       "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background."
     },
     {
       "id": "eval-08",
-      "seed": 808,
+      "seeds": [808, 5808, 6808, 7808],
       "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background."
     }
   ]

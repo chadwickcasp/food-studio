@@ -1,0 +1,319 @@
+{
+  "created_utc": "2026-10-08T00:43:45.541822+00:00",
+  "prompts_path": "/home/chadcasper/food-studio/data/validation_prompts.json",
+  "device": "cuda",
+  "gpu_name": "NVIDIA L4",
+  "runtime_seconds": 0.005,
+  "generated_sample_count": 0,
+  "reused_sample_count": 32,
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "8c44a2fbef88fae175da65df054db0f901aa9747",
+  "diffusers_revision": "80c7ed262aeffbeb43ef13ae04baeb9b84515a69",
+  "adapter_path": null,
+  "adapter_scale": null,
+  "adapter_sha256": null,
+  "width": 768,
+  "height": 768,
+  "num_inference_steps": 50,
+  "guidance_scale": 4.0,
+  "scheduler": "FlowMatchEulerDiscreteScheduler",
+  "precision": "bf16",
+  "cpu_offload": true,
+  "max_sequence_length": 512,
+  "text_encoder_out_layers": [
+    10,
+    20,
+    30
+  ],
+  "negative_prompt": null,
+  "samples": [
+    {
+      "id": "eval-01",
+      "prompt_group_id": "eval-01",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 101,
+      "image": "outputs/eval/base/eval-01.png",
+      "runtime_seconds": 152.253,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-01-seed-5101",
+      "prompt_group_id": "eval-01",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 5101,
+      "image": "outputs/eval/base/eval-01-seed-5101.png",
+      "runtime_seconds": 155.22,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-01-seed-6101",
+      "prompt_group_id": "eval-01",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 6101,
+      "image": "outputs/eval/base/eval-01-seed-6101.png",
+      "runtime_seconds": 66.498,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-01-seed-7101",
+      "prompt_group_id": "eval-01",
+      "prompt": "A wide ceramic bowl of roasted tomato soup finished with basil oil and a grilled sourdough crouton, photographed from directly overhead on a dark stone counter.",
+      "seed": 7101,
+      "image": "outputs/eval/base/eval-01-seed-7101.png",
+      "runtime_seconds": 65.886,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-02",
+      "prompt_group_id": "eval-02",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 202,
+      "image": "outputs/eval/base/eval-02.png",
+      "runtime_seconds": 65.197,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-02-seed-5202",
+      "prompt_group_id": "eval-02",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 5202,
+      "image": "outputs/eval/base/eval-02-seed-5202.png",
+      "runtime_seconds": 65.418,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-02-seed-6202",
+      "prompt_group_id": "eval-02",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 6202,
+      "image": "outputs/eval/base/eval-02-seed-6202.png",
+      "runtime_seconds": 65.025,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-02-seed-7202",
+      "prompt_group_id": "eval-02",
+      "prompt": "A coupe glass of raspberry champagne cocktail with a single berry on the rim, three-quarter view, standing on a marble bar with a softly lit background.",
+      "seed": 7202,
+      "image": "outputs/eval/base/eval-02-seed-7202.png",
+      "runtime_seconds": 65.085,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-03",
+      "prompt_group_id": "eval-03",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 303,
+      "image": "outputs/eval/base/eval-03.png",
+      "runtime_seconds": 64.586,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-03-seed-5303",
+      "prompt_group_id": "eval-03",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 5303,
+      "image": "outputs/eval/base/eval-03-seed-5303.png",
+      "runtime_seconds": 65.013,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-03-seed-6303",
+      "prompt_group_id": "eval-03",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 6303,
+      "image": "outputs/eval/base/eval-03-seed-6303.png",
+      "runtime_seconds": 65.013,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-03-seed-7303",
+      "prompt_group_id": "eval-03",
+      "prompt": "Charcoal-grilled lamb chops with chimichurri and blistered peppers on a black plate, low three-quarter angle, dark moody restaurant lighting.",
+      "seed": 7303,
+      "image": "outputs/eval/base/eval-03-seed-7303.png",
+      "runtime_seconds": 64.816,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-04",
+      "prompt_group_id": "eval-04",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 404,
+      "image": "outputs/eval/base/eval-04.png",
+      "runtime_seconds": 63.999,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-04-seed-5404",
+      "prompt_group_id": "eval-04",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 5404,
+      "image": "outputs/eval/base/eval-04-seed-5404.png",
+      "runtime_seconds": 65.047,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-04-seed-6404",
+      "prompt_group_id": "eval-04",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 6404,
+      "image": "outputs/eval/base/eval-04-seed-6404.png",
+      "runtime_seconds": 64.968,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-04-seed-7404",
+      "prompt_group_id": "eval-04",
+      "prompt": "A slice of pistachio baklava on a small gold-rimmed plate with crushed pistachios and honey drip, bright window light, close three-quarter view.",
+      "seed": 7404,
+      "image": "outputs/eval/base/eval-04-seed-7404.png",
+      "runtime_seconds": 65.265,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-05",
+      "prompt_group_id": "eval-05",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 505,
+      "image": "outputs/eval/base/eval-05.png",
+      "runtime_seconds": 63.797,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-05-seed-5505",
+      "prompt_group_id": "eval-05",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 5505,
+      "image": "outputs/eval/base/eval-05-seed-5505.png",
+      "runtime_seconds": 64.833,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-05-seed-6505",
+      "prompt_group_id": "eval-05",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 6505,
+      "image": "outputs/eval/base/eval-05-seed-6505.png",
+      "runtime_seconds": 65.048,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-05-seed-7505",
+      "prompt_group_id": "eval-05",
+      "prompt": "A platter of chilled oysters on crushed ice with lemon wedges and mignonette, overhead commercial food photograph on a zinc table.",
+      "seed": 7505,
+      "image": "outputs/eval/base/eval-05-seed-7505.png",
+      "runtime_seconds": 64.822,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-06",
+      "prompt_group_id": "eval-06",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 606,
+      "image": "outputs/eval/base/eval-06.png",
+      "runtime_seconds": 63.061,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-06-seed-5606",
+      "prompt_group_id": "eval-06",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 5606,
+      "image": "outputs/eval/base/eval-06-seed-5606.png",
+      "runtime_seconds": 64.721,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-06-seed-6606",
+      "prompt_group_id": "eval-06",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 6606,
+      "image": "outputs/eval/base/eval-06-seed-6606.png",
+      "runtime_seconds": 64.817,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-06-seed-7606",
+      "prompt_group_id": "eval-06",
+      "prompt": "Breakfast tacos with scrambled egg, avocado, and salsa on a warm ceramic plate, 45-degree angle, sunlit kitchen table with linen napkin.",
+      "seed": 7606,
+      "image": "outputs/eval/base/eval-06-seed-7606.png",
+      "runtime_seconds": 64.883,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-07",
+      "prompt_group_id": "eval-07",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 707,
+      "image": "outputs/eval/base/eval-07.png",
+      "runtime_seconds": 62.651,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-07-seed-5707",
+      "prompt_group_id": "eval-07",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 5707,
+      "image": "outputs/eval/base/eval-07-seed-5707.png",
+      "runtime_seconds": 64.74,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-07-seed-6707",
+      "prompt_group_id": "eval-07",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 6707,
+      "image": "outputs/eval/base/eval-07-seed-6707.png",
+      "runtime_seconds": 64.742,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-07-seed-7707",
+      "prompt_group_id": "eval-07",
+      "prompt": "A stemmed glass of tiramisu showing cocoa dust and mascarpone layers, tight side view, dark tabletop with a small espresso cup in the background.",
+      "seed": 7707,
+      "image": "outputs/eval/base/eval-07-seed-7707.png",
+      "runtime_seconds": 64.591,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-08",
+      "prompt_group_id": "eval-08",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 808,
+      "image": "outputs/eval/base/eval-08.png",
+      "runtime_seconds": 62.745,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-08-seed-5808",
+      "prompt_group_id": "eval-08",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 5808,
+      "image": "outputs/eval/base/eval-08-seed-5808.png",
+      "runtime_seconds": 64.641,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-08-seed-6808",
+      "prompt_group_id": "eval-08",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 6808,
+      "image": "outputs/eval/base/eval-08-seed-6808.png",
+      "runtime_seconds": 64.499,
+      "reused_existing": true
+    },
+    {
+      "id": "eval-08-seed-7808",
+      "prompt_group_id": "eval-08",
+      "prompt": "A composed salad of roasted beets, orange segments, ricotta, and pistachios on a matte white plate, overhead view, pale linen background.",
+      "seed": 7808,
+      "image": "outputs/eval/base/eval-08-seed-7808.png",
+      "runtime_seconds": 64.604,
+      "reused_existing": true
+    }
+  ]
+}
